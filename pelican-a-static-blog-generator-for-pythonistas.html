@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link href='http://fonts.googleapis.com/css?family=Noticia+Text:400,700' rel='stylesheet' type='text/css' />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title> Pelican: a static blog generator for Pythonistas | fjavieralba.com </title>
+
+    <link rel="stylesheet" href="./theme/css/style.css" type="text/css" />
+    <link rel="stylesheet" href="./theme/css/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="./theme/css/font-awesome.css" type="text/css"/>
+  </head>
+  <body>
+    <div class=container>
+        
+                  <!--div class=header>
+        <a href="./pages/about-me.html">F. Javier Alba</a>'s  Page
+      </div-->
+      <div class=navigation>
+        <ul>
+          <li><a href="./index.html">Blog</a> </li>
+          <li><a href="./archives.html">Archive</a></li>
+          <li><a href="./tags.html">Tags</a> </li>
+          <li><a href="./pages/projects.html">Projects</a> </li>
+          <li><a href="./pages/talks.html">Talks</a></li>
+          <li><a href="./pages/about-me.html">About</a> </li>
+        </ul>
+      </div>
+      <div class=separator></div>
+        
+        
+        <div class=body>
+        
+    <h1 class="title"> Pelican: a static blog generator for Pythonistas</h1>
+    <p class=date> 30 March 2012 </p>
+    <p>Hi!</p>
+<p>I would like to start this blog speaking about <a class="reference external" href="http://blog.notmyidea.org/pelican-a-simple-static-blog-generator-in-python.html">Pelican</a>, a nice Python project initiated by <a class="reference external" href="http://notmyidea.org/">Alexis Metaireau</a> that allows you to generate a complete static blog/site from <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> Templates.</p>
+<p>Why would you do that? <em>First</em>: for pythonic fun. <em>Second</em>: because of the <strong>static</strong> part: all your site will be a bunch of static files (HTML, CSS...). This could sound a bit strange but I think is a good way to go if you want a simple blog or personal web. It helps keeping it simple. In addition, it makes easy to host your page for free, even maintaining your own domain name.</p>
+<p>But don't get me wrong, you will have all you would expect from a blog site, including comments, socialize-buttons, pagination, tags, categories etc.</p>
+<div class="section" id="restructuredtext">
+<h2>reStructuredText</h2>
+<p>But, what a reStructuredText (rst) template looks like?</p>
+<p>A blog entry would be as simple as the following text:</p>
+<div class="highlight"><pre><span class="gh">Title of a post</span>
+<span class="gh">###############</span>
+<span class="nc">:category:</span> <span class="nf">programming</span>
+
+<span class="gh">Subtitle</span>
+<span class="gh">--------</span>
+Hi!
+
+This is my first rst post!
+
+And this is a link to a page_
+
+
+<span class="p">..</span> <span class="nt">_page:</span> http://moliware.com/
+</pre></div>
+<p>reStructuredText is part of <a class="reference external" href="http://docutils.sourceforge.net/">docutils</a>, a powerful and open-source text processing system written in Python.</p>
+<p>In an <tt class="docutils literal">rst</tt> file you can specify links, insert images, code snippets and many other things. <a class="reference external" href="http://docutils.sourceforge.net/docs/user/rst/quickref.html">Here</a> you have a good overview of all its functionalities.</p>
+<p>As you may know, it's mainly used for generating documentation. For example, with <a class="reference external" href="http://sphinx.pocoo.org/">Sphinx</a> you write your <tt class="docutils literal">rst</tt> files once and then you can generate your documentation in multiple formats like PDF of HTML.</p>
+</div>
+<div class="section" id="installing-pelican">
+<h2>Installing Pelican</h2>
+<pre class="literal-block">
+$ pip install pelican
+</pre>
+<p>If you're curious, you can review its code and clone the <a class="reference external" href="https://github.com/ametaireau/pelican">github repository</a>.</p>
+</div>
+<div class="section" id="creating-a-site-blog">
+<h2>Creating a site/blog</h2>
+<p>Once installed, to create a new site, create a new folder and type:</p>
+<pre class="literal-block">
+$ pelican &lt;my_folder_path&gt;
+</pre>
+<p>This command will generate an <tt class="docutils literal">output</tt> folder with an entire blog site with the default content.
+If you open the <tt class="docutils literal">index.html</tt> file inside <tt class="docutils literal">output</tt> you will see something similar to:</p>
+<img alt="images/pelican_default.png" class="align-center" src="static/images/pelican_default.png" />
+</div>
+<div class="section" id="writing-posts">
+<h2>Writing posts</h2>
+<p>To start writing posts, do the following:</p>
+<ul class="simple">
+<li>Inside your site folder, create a new folder that will contain your rst sources:</li>
+</ul>
+<div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> &lt;my_folder_path&gt;
+<span class="nv">$ </span>mkdir rst
+</pre></div>
+<ul class="simple">
+<li>Create an rst file inside that directory with an example post:</li>
+</ul>
+<div class="highlight"><pre><span class="nv">$ </span>vim my_first_post.rst
+</pre></div>
+<div class="highlight"><pre><span class="gh">Starting with Pelican</span>
+<span class="gh">#####################</span>
+<span class="nc">:date:</span> <span class="nf">2012-03-30 23:47</span>
+<span class="nc">:category:</span> <span class="nf">programming</span>
+<span class="nc">:tags:</span> <span class="nf">python, blog, rst, pelican</span>
+<span class="nc">:author:</span> <span class="nf">F\. Javier Alba</span>
+<span class="nc">:excerpt:</span> <span class="nf">This is an excerpt of my post.</span>
+
+<span class="gh">Introduction</span>
+<span class="gh">------------</span>
+
+Hi!
+
+This is my first rst post!
+
+And this is a link to a page_
+
+
+<span class="p">..</span> <span class="nt">_page:</span> http://moliware.com/
+</pre></div>
+<ul class="simple">
+<li>Now, run pelican indicating your rst directory:</li>
+</ul>
+<div class="highlight"><pre><span class="nv">$ </span>pelican rst/
+</pre></div>
+<ul class="simple">
+<li>Open <tt class="docutils literal"><span class="pre">&lt;my_folder_path&gt;/output/index.html</span></tt> and you will see your post in html format:</li>
+</ul>
+<img alt="images/first_post.png" class="align-center" src="static/images/first_post.png" />
+</div>
+<div class="section" id="writing-pages">
+<h2>Writing pages</h2>
+<p>Pelican also support regular pages.</p>
+<p>Imagine you want an &quot;About&quot; page apart from your blog posts.</p>
+<p>All you have to do is create a <tt class="docutils literal">pages</tt> folder and create a new rst file with your page content:</p>
+<div class="highlight"><pre><span class="nv">$ </span>mkdir &lt;my_folder_path&gt;/rst/pages
+<span class="nv">$ </span><span class="nb">cd</span> &lt;my_folder_path&gt;/rst/pages
+<span class="nv">$ </span>vim about.rst
+</pre></div>
+<div class="highlight"><pre><span class="gh">About me</span>
+<span class="gh">########</span>
+<span class="nc">:date:</span> <span class="nf">2012-03-30 23:47</span>
+<span class="nc">:author:</span> <span class="nf">F\. Javier Alba</span>
+
+This is an about page!
+</pre></div>
+<p>Run again the pelican script against your sources and it will generate also the new page:</p>
+<img alt="images/page.png" class="align-center" src="static/images/page.png" />
+</div>
+<div class="section" id="configuring-your-blog">
+<h2>Configuring your blog</h2>
+<p>The <tt class="docutils literal">Pelican</tt> command optionally accepts a configuration file to customize some parts of your blog.</p>
+<p>E.g: date formats, pagination, disqus comments, Twitter integration... all these aspects and several more can be configured in a python configuration file.</p>
+<p>The following is an example of a Pelican configuration file:</p>
+<div class="highlight"><pre>DEFAULT_CATEGORY = &#39;Uncategorized&#39;
+
+TWITTER_USERNAME = &#39;fjavieralba&#39;
+
+PDF_GENERATOR = False
+REVERSE_CATEGORY_ORDER = True
+LOCALE = &quot;&quot;
+DEFAULT_PAGINATION = 10
+
+FEED_RSS = &#39;feeds/all.rss.xml&#39;
+CATEGORY_FEED_RSS = &#39;feeds/%s.rss.xml&#39;
+
+SOCIAL = ((&#39;twitter&#39;, &#39;http://twitter.com/fjavieralba&#39;),
+          (&#39;linkedIn&#39;, &#39;http://es.linkedin.com/in/fjavieralba/en&#39;),
+          (&#39;github&#39;, &#39;http://github.com/fjavieralba&#39;),)
+
+
+# static paths will be copied under the same name
+STATIC_PATHS = [&quot;images&quot;]
+</pre></div>
+<p>To tell pelican to use your configuration file simply run the command with the -s option:</p>
+<div class="highlight"><pre><span class="nv">$ </span>pelican rst/ -s &lt;CONF_FILE&gt;
+</pre></div>
+<p>You can see more details about pelican configuration in <a class="reference external" href="http://pelican.readthedocs.org/en/2.8/index.html">the officcial Pelican documentation</a></p>
+</div>
+<div class="section" id="extending-pelican">
+<h2>Extending Pelican</h2>
+<p>If you have some coding skills or are used to web templates engines like <a class="reference external" href="http://jinja.pocoo.org/">Jinja</a>, you will find it easy to extend and adapt Pelican to fit your needs.</p>
+<div class="section" id="modifying-default-themes">
+<h3>Modifying default themes</h3>
+<p>We have been using the default theme. But what if you want to customize a little bit more the look and feel of your blog?</p>
+<p>One way of customization is via configuration file. But if you want to go further, you can directly change your theme files.</p>
+<p>Themes usually consist in two parts: the <tt class="docutils literal">templates</tt> folder and the <tt class="docutils literal">static</tt> folder.
+<tt class="docutils literal">static</tt> usually contains CSS files, images, etc. and <tt class="docutils literal">templates</tt> contains .html files that are actually <a class="reference external" href="http://jinja.pocoo.org/">Jinja</a> templates. Experimenting a bit and changing the CSS styles or templates of an existing template is sometimes all you need to personalize your new blog.</p>
+<p><a class="reference external" href="https://github.com/ametaireau/pelican-themes">In this Github repo</a> you can find all the &quot;officcial&quot; Pelican themes.</p>
+</div>
+<div class="section" id="creating-your-own-theme">
+<h3>Creating your own theme</h3>
+<p>If you have a clear idea of how your site should be and look like, you can also create your own theme.</p>
+<p>It's a good idea to start from a existing one. Again in the <a class="reference external" href="http://pelican.readthedocs.org/en/2.8/themes.html">project documentation page</a> you have more details on how to do that.</p>
+<p>In fact, this blog is a Pelican site based on a theme I created (miserably copying the look and feel of <a class="reference external" href="http://lucumr.pocoo.org/">Armin Ronacher's blog</a>)</p>
+</div>
+<div class="section" id="deploying-your-site-to-heroku-or-github-pages-for-free">
+<h3>Deploying your site to Heroku or Github Pages for free</h3>
+<p>One of the advantages of having an static blog (apart from being the most modern of your colleagues) is that t
+it's easy to host your blog/site for free.</p>
+<p>Github Pages has a nice tutorial on how to do it with any Github repository.</p>
+<p>You could also take advantage of the &quot;free dino&quot; that Heroku provides to serve your site. In only requires an <a class="reference external" href="http://kennethreitz.com/static-sites-on-heroku-cedar.html">easy extra step</a>.</p>
+</div>
+</div>
+
+
+    
+<div class=twitter>
+<a href="https://twitter.com/share" class="twitter-share-button" data-via="fjavieralba">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</div>
+
+    <p class=tags>This entry was tagged as
+      
+      <a href="./tag/blog.html">blog</a>
+      
+      <a href="./tag/rst.html">rst</a>
+      
+      <a href="./tag/pelican.html">pelican</a>
+      
+    </p>
+
+        </div>
+        
+        
+            <div class=footer>
+  <p>&copy; Copyright 2012 by <a href="./pages/about-me.html">F. Javier Alba </a> </p>
+  <p> Powered by <a href="http://pypi.python.org/pypi/pelican/" target="_blank">Pelican</a></p>
+  <p>
+    License: <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons
+    attribution-noncommercial-sharealike License.</a>
+  </p>
+  <p>
+    Feeds: <a href="./feeds/all.rss.xml" rel="alternate" title="Recent Blog Posts">RSS</a>,
+    <a href="./feeds/all.atom.xml" rel="alternate" title="Recent Blog Posts">Atom</a>
+  </p>
+  <p>
+    <div class=social style="font-size: 27px;">
+      <ul>
+        <script language="JavaScript">
+          u = 'me';
+          s = 'fjavieralba.com';
+          document.write('<a href=\"mailto:' + u + '@' + s + '\" target=\"_blank\">');
+        </script>
+            <li><i class="icon-envelope icon-large"></i> </li>
+        </a>
+        <a href="http://twitter.com/fjavieralba" target="_blank"> <li> <i class="icon-twitter-sign icon-large"> </li></i> </a>
+        <a href="http://es.linkedin.com/in/fjavieralba/en"><li><i class="icon-linkedin-sign icon-large" ></i></li></a>
+        <a href="http://github.com/fjavieralba" target="_blank"> <li> <i class="icon-github-sign icon-large"></i> </li> </a>
+
+        <!--a href="https://plus.google.com/101878412015087797011">google+</a-->
+      </ul>
+    </div>
+  </p>
+</div>
+        
+    </div>
+  </body>
+</html>
