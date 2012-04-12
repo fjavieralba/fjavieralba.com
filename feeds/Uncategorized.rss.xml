@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>fjavieralba.com</title><link>blog</link><description></description><atom:link href="blog/feeds/Uncategorized.rss.xml" rel="self"></atom:link><lastBuildDate>Tue, 20 Mar 2012 16:24:00 +0100</lastBuildDate><item><title>Spanish Post!</title><link>blog/spanish-post.html</link><description>&lt;p&gt;hell yeah!!&lt;/p&gt;
+&lt;p&gt;blah&lt;/p&gt;
+&lt;p&gt;blah&lt;/p&gt;
+&lt;p&gt;blah!&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">F. Javier Alba</dc:creator><pubDate>Tue, 20 Mar 2012 16:24:00 +0100</pubDate><guid>blog/spanish-post.html</guid><category>spain</category></item><item><title>Interesting Post</title><link>blog/interesting-post.html</link><description>&lt;p&gt;Hi, this is an interesting post&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Manolete</dc:creator><pubDate>Mon, 19 Mar 2012 16:24:00 +0100</pubDate><guid>blog/interesting-post.html</guid><category>interesting</category></item><item><title>Another Post!</title><link>blog/another-post.html</link><description>&lt;p&gt;hell yeah!!&lt;/p&gt;
+&lt;p&gt;blah&lt;/p&gt;
+&lt;p&gt;blah&lt;/p&gt;
+&lt;p&gt;blah!&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">F. Javier Alba</dc:creator><pubDate>Sun, 18 Mar 2012 16:24:00 +0100</pubDate><guid>blog/another-post.html</guid><category>python</category></item><item><title>Eureka Post!</title><link>blog/eureka-post.html</link><description>&lt;p&gt;hell yeah!!&lt;/p&gt;
+&lt;p&gt;blah&lt;/p&gt;
+&lt;p&gt;blah&lt;/p&gt;
+&lt;p&gt;blah!&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">F. Javier Alba</dc:creator><pubDate>Thu, 15 Mar 2012 16:24:00 +0100</pubDate><guid>blog/eureka-post.html</guid><category>python</category></item><item><title>Hello World</title><link>blog/hello-world.html</link><description>&lt;p&gt;Hi, this is a hello world post&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;MyClass&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;method&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sth&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;pass&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Tom Derrick (1914–1945) was an Australian recipient of the Victoria Cross (VC) during the Second World War. He was awarded the VC for his assault on a heavily defended Japanese position at Sattelberg, New Guinea, in November 1943. During the engagement, he scaled a cliff face while under heavy fire and silenced seven machine-gun posts, before leading his platoon in a charge that destroyed a further three. Derrick enlisted in the Second Australian Imperial Force in July 1941, joining the 2/48th Battalion. He was posted to the Middle East, where he took part in the Siege of Tobruk, was recommended for the Military Medal and promoted to corporal. Later, at El Alamein, Derrick was awarded the Distinguished Conduct Medal for knocking out three German machine-gun posts, destroying two tanks, and capturing a hundred prisoners. He returned to Australia with his battalion in February 1943, and subsequently served in the South West Pacific Theatre where he fought in the battle to capture Lae. A year later, he returned to Australia for officer cadet training and was commissioned lieutenant in November 1944. During the Battle of Tarakan on 23 May 1945, he was hit by five bullets from a Japanese machine gun. Derrick died from his wounds the next day&lt;/p&gt;
+&lt;div class="section" id="a-subsection"&gt;
+&lt;h2&gt;A subsection&lt;/h2&gt;
+&lt;p&gt;d a further three. Derrick enlisted in the Second Australian Imperial Force in July 1941, joining the 2/48th Battalion. He was posted to the Middle East, where he took part in the Siege of Tobruk, was recommended for the Military Medal and promoted to corporal. Later, at El Alamein, Derrick was awarded the Distinguished Conduct Medal for knocking out three German machine-gun posts, destroying two tanks&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;abc&lt;/li&gt;
+&lt;li&gt;cde&lt;/li&gt;
+&lt;li&gt;añsdlkfjañj&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">F. Javier Alba</dc:creator><pubDate>Mon, 12 Mar 2012 14:24:00 +0100</pubDate><guid>blog/hello-world.html</guid><category>hello world</category><category>bye world</category></item></channel></rss>
