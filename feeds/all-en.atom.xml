@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>fjavieralba.com</title><link href="blog" rel="alternate"></link><link href="blog/feeds/all-en.atom.xml" rel="self"></link><id>blog</id><updated>2012-03-30T23:47:00+02:00</updated><entry><title>Pelican: a static blog generator for Pythonistas</title><link href="blog/pelican-a-static-blog-generator-for-pythonistas.html" rel="alternate"></link><updated>2012-03-30T23:47:00+02:00</updated><author><name>F. Javier Alba</name></author><id>blog/pelican-a-static-blog-generator-for-pythonistas.html</id><summary type="html">&lt;p&gt;Hi!&lt;/p&gt;
-&lt;p&gt;I would like to start this blog speaking about &lt;a class="reference external" href="http://blog.notmyidea.org/pelican-a-simple-static-blog-generator-in-python.html"&gt;Pelican&lt;/a&gt;, a nice Python project initiated by &lt;a class="reference external" href="http://notmyidea.org/"&gt;Alexis Metaireau&lt;/a&gt; that allows you to generate a complete static blog/site from &lt;a class="reference external" href="http://docutils.sourceforge.net/rst.html"&gt;reStructuredText&lt;/a&gt; Templates.&lt;/p&gt;
-&lt;p&gt;Why would you do that? &lt;em&gt;First&lt;/em&gt;: for pythonic fun. &lt;em&gt;Second&lt;/em&gt;: because of the &lt;strong&gt;static&lt;/strong&gt; part: all your site will be a bunch of static files (HTML, CSS...). This could sound a bit strange but I think is a good way to go if you want a simple blog or personal web. It helps keeping it simple. In addition, it makes easy to host your page for free, even maintaining your own domain name.&lt;/p&gt;
-&lt;p&gt;But don't get me wrong, you will have all that you would expect from a blog site, including comments, socialize-buttons, pagination, tags, categories etc.&lt;/p&gt;
+&lt;p&gt;I would like to start this blog speaking about &lt;a class="reference external" href="http://blog.notmyidea.org/pelican-a-simple-static-blog-generator-in-python.html"&gt;Pelican&lt;/a&gt;, a nice Python project initiated by &lt;a class="reference external" href="http://notmyidea.org/"&gt;Alexis Metaireau&lt;/a&gt;. It allows you to generate a complete static blog/site from &lt;a class="reference external" href="http://docutils.sourceforge.net/rst.html"&gt;reStructuredText&lt;/a&gt; Templates. The blog you are reading just now is created in that way.&lt;/p&gt;
+&lt;p&gt;Why would you do that? &lt;em&gt;First&lt;/em&gt;: for pythonic fun. &lt;em&gt;Second&lt;/em&gt;: because of the &lt;strong&gt;static&lt;/strong&gt; part: your site will be a bunch of static files (HTML, CSS...). This could sound strange in 2012 but I think is a good way to go if you want to keep it simple. In addition, it's extremely easy to host a static site for free, even maintaining your own domain name. (We will see how later)&lt;/p&gt;
+&lt;p&gt;That said, you will get in the box many functionalities you would expect from a blog site, including comments, socialize-buttons, pagination, tags, categories and so on.&lt;/p&gt;
 &lt;div class="section" id="restructuredtext"&gt;
 &lt;h2&gt;reStructuredText&lt;/h2&gt;
-&lt;p&gt;But, what a reStructuredText (rst) template looks like?&lt;/p&gt;
-&lt;p&gt;A blog entry would be as simple as the following text:&lt;/p&gt;
+&lt;p&gt;You can write your posts and pages using reStructuredText or markdown.&lt;/p&gt;
+&lt;p&gt;Probably you already know but in case you are wondering how a reStructuredText (rst) template looks like, a blog entry would be as simple as the following text:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="gh"&gt;Title of a post&lt;/span&gt;
 &lt;span class="gh"&gt;###############&lt;/span&gt;
 &lt;span class="nc"&gt;:category:&lt;/span&gt; &lt;span class="nf"&gt;programming&lt;/span&gt;
@@ -24,7 +24,7 @@ And this is a link to a page_
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;reStructuredText is part of &lt;a class="reference external" href="http://docutils.sourceforge.net/"&gt;docutils&lt;/a&gt;, a powerful and open-source text processing system written in Python.&lt;/p&gt;
 &lt;p&gt;In an &lt;tt class="docutils literal"&gt;rst&lt;/tt&gt; file you can specify links, insert images, code snippets and many other things. &lt;a class="reference external" href="http://docutils.sourceforge.net/docs/user/rst/quickref.html"&gt;Here&lt;/a&gt; you have a good overview of all its functionalities.&lt;/p&gt;
-&lt;p&gt;As you may know, it's mainly used for generating documentation. For example, with &lt;a class="reference external" href="http://sphinx.pocoo.org/"&gt;Sphinx&lt;/a&gt; you write your &lt;tt class="docutils literal"&gt;rst&lt;/tt&gt; files once and then you can generate your documentation in multiple formats like PDF of HTML.&lt;/p&gt;
+&lt;p&gt;As you may know, it's used for generating documentation. For example, with &lt;a class="reference external" href="http://sphinx.pocoo.org/"&gt;Sphinx&lt;/a&gt; project you write your &lt;tt class="docutils literal"&gt;rst&lt;/tt&gt; files once and then you can generate your documentation in multiple formats like PDF of HTML.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="installing-pelican"&gt;
 &lt;h2&gt;Installing Pelican&lt;/h2&gt;
