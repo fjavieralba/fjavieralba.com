@@ -52,7 +52,7 @@
 <div class="section" id="restructuredtext">
 <h2>reStructuredText</h2>
 <p>You can write your posts and pages using reStructuredText or markdown.</p>
-<p>Probably you already know but in case you are wondering how a reStructuredText (rst) template looks like, a blog entry would be as simple as the following text:</p>
+<p>Probably you already know but in case you are wondering how a reStructuredText (rst) template looks like, this is an example of a blog entry written in rst:</p>
 <div class="highlight"><pre><span class="gh">Title of a post</span>
 <span class="gh">###############</span>
 <span class="nc">:category:</span> <span class="nf">programming</span>
@@ -70,7 +70,7 @@ And this is a link to a page_
 </pre></div>
 <p>reStructuredText is part of <a class="reference external" href="http://docutils.sourceforge.net/">docutils</a>, a powerful and open-source text processing system written in Python.</p>
 <p>In an <tt class="docutils literal">rst</tt> file you can specify links, insert images, code snippets and many other things. <a class="reference external" href="http://docutils.sourceforge.net/docs/user/rst/quickref.html">Here</a> you have a good overview of all its functionalities.</p>
-<p>As you may know, it's used for generating documentation. For example, with <a class="reference external" href="http://sphinx.pocoo.org/">Sphinx</a> project you write your <tt class="docutils literal">rst</tt> files once and then you can generate your documentation in multiple formats like PDF of HTML.</p>
+<p>As you may know, it's used for generating documentation. For example, with <a class="reference external" href="http://sphinx.pocoo.org/">Sphinx</a> you write your <tt class="docutils literal">rst</tt> files once and then you can generate your documentation in multiple formats like PDF of HTML.</p>
 </div>
 <div class="section" id="installing-pelican">
 <h2>Installing Pelican</h2>
@@ -81,9 +81,10 @@ $ pip install pelican
 </div>
 <div class="section" id="creating-a-site-blog">
 <h2>Creating a site/blog</h2>
-<p>Once installed, to create a new site, create a new folder and type:</p>
+<p>Once installed, to create a new site, create a folder and run the pelican command. For example:</p>
 <pre class="literal-block">
-$ pelican &lt;my_folder_path&gt;
+$ mkdir my_blog
+$ pelican my_blog
 </pre>
 <p>This command will generate an <tt class="docutils literal">output</tt> folder with an entire blog site with the default content.
 If you open the <tt class="docutils literal">index.html</tt> file inside <tt class="docutils literal">output</tt> you will see something similar to:</p>
@@ -95,13 +96,13 @@ If you open the <tt class="docutils literal">index.html</tt> file inside <tt cla
 <ul class="simple">
 <li>Inside your site folder, create a new folder that will contain your rst sources:</li>
 </ul>
-<div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> &lt;my_folder_path&gt;
+<div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd </span>my_blog
 <span class="nv">$ </span>mkdir rst
 </pre></div>
 <ul class="simple">
-<li>Create an rst file inside that directory with an example post:</li>
+<li>Create an <tt class="docutils literal">rst</tt> file inside that directory with an example post:</li>
 </ul>
-<div class="highlight"><pre><span class="nv">$ </span>vim my_first_post.rst
+<div class="highlight"><pre><span class="nv">$ </span>vim rst/my_first_post.rst
 </pre></div>
 <div class="highlight"><pre><span class="gh">Starting with Pelican</span>
 <span class="gh">#####################</span>
@@ -124,12 +125,12 @@ And this is a link to a page_
 <span class="p">..</span> <span class="nt">_page:</span> http://moliware.com/
 </pre></div>
 <ul class="simple">
-<li>Now, run pelican indicating your rst directory:</li>
+<li>Now, run pelican indicating your <tt class="docutils literal">rst</tt> directory:</li>
 </ul>
 <div class="highlight"><pre><span class="nv">$ </span>pelican rst/
 </pre></div>
 <ul class="simple">
-<li>Open <tt class="docutils literal"><span class="pre">&lt;my_folder_path&gt;/output/index.html</span></tt> and you will see your post in html format:</li>
+<li>Open <tt class="docutils literal">my_blog/output/index.html</tt> and you will see your post in html format:</li>
 </ul>
 <img alt="images/first_post.png" class="align-center" src="static/images/first_post.png" />
 </div>
@@ -138,9 +139,8 @@ And this is a link to a page_
 <p>Pelican also support regular pages.</p>
 <p>Imagine you want an &quot;About&quot; page apart from your blog posts.</p>
 <p>All you have to do is create a <tt class="docutils literal">pages</tt> folder and create a new rst file with your page content:</p>
-<div class="highlight"><pre><span class="nv">$ </span>mkdir &lt;my_folder_path&gt;/rst/pages
-<span class="nv">$ </span><span class="nb">cd</span> &lt;my_folder_path&gt;/rst/pages
-<span class="nv">$ </span>vim about.rst
+<div class="highlight"><pre><span class="nv">$ </span>mkdir rst/pages
+<span class="nv">$ </span>vim rst/pages/about.rst
 </pre></div>
 <div class="highlight"><pre><span class="gh">About me</span>
 <span class="gh">########</span>
@@ -155,7 +155,7 @@ This is an about page!
 <div class="section" id="configuring-your-blog">
 <h2>Configuring your blog</h2>
 <p>The <tt class="docutils literal">Pelican</tt> command optionally accepts a configuration file to customize some parts of your blog.</p>
-<p>E.g: date formats, pagination, disqus comments, Twitter integration... all these aspects and several more can be configured in a python configuration file.</p>
+<p>E.g: output folder, date formats, pagination, disqus comments, Twitter integration... all these aspects and several more can be configured in a python configuration file and are supported by the &quot;official themes&quot;. (In fact, this will depend on the theme you are using. You can create your own pelican theme and choose what of these functionalities you will support.)</p>
 <p>The following is an example of a Pelican configuration file:</p>
 <div class="highlight"><pre>DEFAULT_CATEGORY = &#39;Uncategorized&#39;
 
@@ -163,7 +163,6 @@ TWITTER_USERNAME = &#39;fjavieralba&#39;
 
 PDF_GENERATOR = False
 REVERSE_CATEGORY_ORDER = True
-LOCALE = &quot;&quot;
 DEFAULT_PAGINATION = 10
 
 FEED_RSS = &#39;feeds/all.rss.xml&#39;
@@ -173,6 +172,7 @@ SOCIAL = ((&#39;twitter&#39;, &#39;http://twitter.com/fjavieralba&#39;),
           (&#39;linkedIn&#39;, &#39;http://es.linkedin.com/in/fjavieralba/en&#39;),
           (&#39;github&#39;, &#39;http://github.com/fjavieralba&#39;),)
 
+OUTPUT_PATH = &#39;/path/to/my_blog/output&#39;
 
 # static paths will be copied under the same name
 STATIC_PATHS = [&quot;images&quot;]
@@ -190,7 +190,7 @@ STATIC_PATHS = [&quot;images&quot;]
 <p>We have been using the default theme. But what if you want to customize a little bit more the look and feel of your blog?</p>
 <p>One way of customization is via configuration file. But if you want to go further, you can directly change your theme files.</p>
 <p>Themes usually consist in two parts: the <tt class="docutils literal">templates</tt> folder and the <tt class="docutils literal">static</tt> folder.
-<tt class="docutils literal">static</tt> usually contains CSS files, images, etc. and <tt class="docutils literal">templates</tt> contains .html files that are actually <a class="reference external" href="http://jinja.pocoo.org/">Jinja</a> templates. Experimenting a bit and changing the CSS styles or templates of an existing template is sometimes all you need to personalize your new blog.</p>
+<tt class="docutils literal">static</tt> usually contains CSS files, images, etc. and <tt class="docutils literal">templates</tt> contains <tt class="docutils literal">.html</tt> files that are actually <a class="reference external" href="http://jinja.pocoo.org/">Jinja</a> templates. Experimenting a bit and changing the CSS styles or the templates of an existing theme is sometimes all you need to personalize your new blog.</p>
 <p><a class="reference external" href="https://github.com/ametaireau/pelican-themes">In this Github repo</a> you can find all the &quot;officcial&quot; Pelican themes.</p>
 </div>
 <div class="section" id="creating-your-own-theme">
@@ -201,10 +201,9 @@ STATIC_PATHS = [&quot;images&quot;]
 </div>
 <div class="section" id="deploying-your-site-to-heroku-or-github-pages-for-free">
 <h3>Deploying your site to Heroku or Github Pages for free</h3>
-<p>One of the advantages of having an static blog (apart from being the most modern of your colleagues) is that t
-it's easy to host your blog/site for free.</p>
-<p>Github Pages has a nice tutorial on how to do it with any Github repository.</p>
-<p>You could also take advantage of the &quot;free dino&quot; that Heroku provides to serve your site. In only requires an <a class="reference external" href="http://kennethreitz.com/static-sites-on-heroku-cedar.html">easy extra step</a>.</p>
+<p>One of the advantages of having an static blog (apart from being the most modern of your colleagues) is that it's easy to host your blog/site for free.</p>
+<p>Github Pages provides free hosting for static pages of projects or users in Github. They have a <a class="reference external" href="http://help.github.com/pages/">nice tutorial</a> on how to create your static site, and it's also possible to use your own domain name. (This site is served in that way!)</p>
+<p>You could also take advantage of the &quot;free dino&quot; that Heroku provides to serve your site. It only requires an <a class="reference external" href="http://kennethreitz.com/static-sites-on-heroku-cedar.html">easy extra step</a>.</p>
 </div>
 </div>
 
@@ -224,6 +223,16 @@ it's easy to host your blog/site for free.</p>
       <a href="./tag/pelican.html">pelican</a>
       
     </p>
+    
+<script type="text/javascript">
+    var disqus_identifier = "pelican-a-static-blog-generator-for-pythonistas.html";
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://fjavieralba.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+
 
         </div>
         

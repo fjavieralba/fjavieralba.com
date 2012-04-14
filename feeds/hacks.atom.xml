@@ -6,7 +6,7 @@
 &lt;div class="section" id="restructuredtext"&gt;
 &lt;h2&gt;reStructuredText&lt;/h2&gt;
 &lt;p&gt;You can write your posts and pages using reStructuredText or markdown.&lt;/p&gt;
-&lt;p&gt;Probably you already know but in case you are wondering how a reStructuredText (rst) template looks like, a blog entry would be as simple as the following text:&lt;/p&gt;
+&lt;p&gt;Probably you already know but in case you are wondering how a reStructuredText (rst) template looks like, this is an example of a blog entry written in rst:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="gh"&gt;Title of a post&lt;/span&gt;
 &lt;span class="gh"&gt;###############&lt;/span&gt;
 &lt;span class="nc"&gt;:category:&lt;/span&gt; &lt;span class="nf"&gt;programming&lt;/span&gt;
@@ -24,7 +24,7 @@ And this is a link to a page_
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;reStructuredText is part of &lt;a class="reference external" href="http://docutils.sourceforge.net/"&gt;docutils&lt;/a&gt;, a powerful and open-source text processing system written in Python.&lt;/p&gt;
 &lt;p&gt;In an &lt;tt class="docutils literal"&gt;rst&lt;/tt&gt; file you can specify links, insert images, code snippets and many other things. &lt;a class="reference external" href="http://docutils.sourceforge.net/docs/user/rst/quickref.html"&gt;Here&lt;/a&gt; you have a good overview of all its functionalities.&lt;/p&gt;
-&lt;p&gt;As you may know, it's used for generating documentation. For example, with &lt;a class="reference external" href="http://sphinx.pocoo.org/"&gt;Sphinx&lt;/a&gt; project you write your &lt;tt class="docutils literal"&gt;rst&lt;/tt&gt; files once and then you can generate your documentation in multiple formats like PDF of HTML.&lt;/p&gt;
+&lt;p&gt;As you may know, it's used for generating documentation. For example, with &lt;a class="reference external" href="http://sphinx.pocoo.org/"&gt;Sphinx&lt;/a&gt; you write your &lt;tt class="docutils literal"&gt;rst&lt;/tt&gt; files once and then you can generate your documentation in multiple formats like PDF of HTML.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="installing-pelican"&gt;
 &lt;h2&gt;Installing Pelican&lt;/h2&gt;
@@ -35,9 +35,10 @@ $ pip install pelican
 &lt;/div&gt;
 &lt;div class="section" id="creating-a-site-blog"&gt;
 &lt;h2&gt;Creating a site/blog&lt;/h2&gt;
-&lt;p&gt;Once installed, to create a new site, create a new folder and type:&lt;/p&gt;
+&lt;p&gt;Once installed, to create a new site, create a folder and run the pelican command. For example:&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
-$ pelican &amp;lt;my_folder_path&amp;gt;
+$ mkdir my_blog
+$ pelican my_blog
 &lt;/pre&gt;
 &lt;p&gt;This command will generate an &lt;tt class="docutils literal"&gt;output&lt;/tt&gt; folder with an entire blog site with the default content.
 If you open the &lt;tt class="docutils literal"&gt;index.html&lt;/tt&gt; file inside &lt;tt class="docutils literal"&gt;output&lt;/tt&gt; you will see something similar to:&lt;/p&gt;
@@ -49,13 +50,13 @@ If you open the &lt;tt class="docutils literal"&gt;index.html&lt;/tt&gt; file in
 &lt;ul class="simple"&gt;
 &lt;li&gt;Inside your site folder, create a new folder that will contain your rst sources:&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; &amp;lt;my_folder_path&amp;gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd &lt;/span&gt;my_blog
 &lt;span class="nv"&gt;$ &lt;/span&gt;mkdir rst
 &lt;/pre&gt;&lt;/div&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;Create an rst file inside that directory with an example post:&lt;/li&gt;
+&lt;li&gt;Create an &lt;tt class="docutils literal"&gt;rst&lt;/tt&gt; file inside that directory with an example post:&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;vim my_first_post.rst
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;vim rst/my_first_post.rst
 &lt;/pre&gt;&lt;/div&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="gh"&gt;Starting with Pelican&lt;/span&gt;
 &lt;span class="gh"&gt;#####################&lt;/span&gt;
@@ -78,12 +79,12 @@ And this is a link to a page_
 &lt;span class="p"&gt;..&lt;/span&gt; &lt;span class="nt"&gt;_page:&lt;/span&gt; http://moliware.com/
 &lt;/pre&gt;&lt;/div&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;Now, run pelican indicating your rst directory:&lt;/li&gt;
+&lt;li&gt;Now, run pelican indicating your &lt;tt class="docutils literal"&gt;rst&lt;/tt&gt; directory:&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;pelican rst/
 &lt;/pre&gt;&lt;/div&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;Open &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;&amp;lt;my_folder_path&amp;gt;/output/index.html&lt;/span&gt;&lt;/tt&gt; and you will see your post in html format:&lt;/li&gt;
+&lt;li&gt;Open &lt;tt class="docutils literal"&gt;my_blog/output/index.html&lt;/tt&gt; and you will see your post in html format:&lt;/li&gt;
 &lt;/ul&gt;
 &lt;img alt="images/first_post.png" class="align-center" src="images/first_post.png" /&gt;
 &lt;/div&gt;
@@ -92,9 +93,8 @@ And this is a link to a page_
 &lt;p&gt;Pelican also support regular pages.&lt;/p&gt;
 &lt;p&gt;Imagine you want an &amp;quot;About&amp;quot; page apart from your blog posts.&lt;/p&gt;
 &lt;p&gt;All you have to do is create a &lt;tt class="docutils literal"&gt;pages&lt;/tt&gt; folder and create a new rst file with your page content:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;mkdir &amp;lt;my_folder_path&amp;gt;/rst/pages
-&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; &amp;lt;my_folder_path&amp;gt;/rst/pages
-&lt;span class="nv"&gt;$ &lt;/span&gt;vim about.rst
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;mkdir rst/pages
+&lt;span class="nv"&gt;$ &lt;/span&gt;vim rst/pages/about.rst
 &lt;/pre&gt;&lt;/div&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="gh"&gt;About me&lt;/span&gt;
 &lt;span class="gh"&gt;########&lt;/span&gt;
@@ -109,7 +109,7 @@ This is an about page!
 &lt;div class="section" id="configuring-your-blog"&gt;
 &lt;h2&gt;Configuring your blog&lt;/h2&gt;
 &lt;p&gt;The &lt;tt class="docutils literal"&gt;Pelican&lt;/tt&gt; command optionally accepts a configuration file to customize some parts of your blog.&lt;/p&gt;
-&lt;p&gt;E.g: date formats, pagination, disqus comments, Twitter integration... all these aspects and several more can be configured in a python configuration file.&lt;/p&gt;
+&lt;p&gt;E.g: output folder, date formats, pagination, disqus comments, Twitter integration... all these aspects and several more can be configured in a python configuration file and are supported by the &amp;quot;official themes&amp;quot;. (In fact, this will depend on the theme you are using. You can create your own pelican theme and choose what of these functionalities you will support.)&lt;/p&gt;
 &lt;p&gt;The following is an example of a Pelican configuration file:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;DEFAULT_CATEGORY = &amp;#39;Uncategorized&amp;#39;
 
@@ -117,7 +117,6 @@ TWITTER_USERNAME = &amp;#39;fjavieralba&amp;#39;
 
 PDF_GENERATOR = False
 REVERSE_CATEGORY_ORDER = True
-LOCALE = &amp;quot;&amp;quot;
 DEFAULT_PAGINATION = 10
 
 FEED_RSS = &amp;#39;feeds/all.rss.xml&amp;#39;
@@ -127,6 +126,7 @@ SOCIAL = ((&amp;#39;twitter&amp;#39;, &amp;#39;http://twitter.com/fjavieralba&am
           (&amp;#39;linkedIn&amp;#39;, &amp;#39;http://es.linkedin.com/in/fjavieralba/en&amp;#39;),
           (&amp;#39;github&amp;#39;, &amp;#39;http://github.com/fjavieralba&amp;#39;),)
 
+OUTPUT_PATH = &amp;#39;/path/to/my_blog/output&amp;#39;
 
 # static paths will be copied under the same name
 STATIC_PATHS = [&amp;quot;images&amp;quot;]
@@ -144,7 +144,7 @@ STATIC_PATHS = [&amp;quot;images&amp;quot;]
 &lt;p&gt;We have been using the default theme. But what if you want to customize a little bit more the look and feel of your blog?&lt;/p&gt;
 &lt;p&gt;One way of customization is via configuration file. But if you want to go further, you can directly change your theme files.&lt;/p&gt;
 &lt;p&gt;Themes usually consist in two parts: the &lt;tt class="docutils literal"&gt;templates&lt;/tt&gt; folder and the &lt;tt class="docutils literal"&gt;static&lt;/tt&gt; folder.
-&lt;tt class="docutils literal"&gt;static&lt;/tt&gt; usually contains CSS files, images, etc. and &lt;tt class="docutils literal"&gt;templates&lt;/tt&gt; contains .html files that are actually &lt;a class="reference external" href="http://jinja.pocoo.org/"&gt;Jinja&lt;/a&gt; templates. Experimenting a bit and changing the CSS styles or templates of an existing template is sometimes all you need to personalize your new blog.&lt;/p&gt;
+&lt;tt class="docutils literal"&gt;static&lt;/tt&gt; usually contains CSS files, images, etc. and &lt;tt class="docutils literal"&gt;templates&lt;/tt&gt; contains &lt;tt class="docutils literal"&gt;.html&lt;/tt&gt; files that are actually &lt;a class="reference external" href="http://jinja.pocoo.org/"&gt;Jinja&lt;/a&gt; templates. Experimenting a bit and changing the CSS styles or the templates of an existing theme is sometimes all you need to personalize your new blog.&lt;/p&gt;
 &lt;p&gt;&lt;a class="reference external" href="https://github.com/ametaireau/pelican-themes"&gt;In this Github repo&lt;/a&gt; you can find all the &amp;quot;officcial&amp;quot; Pelican themes.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="creating-your-own-theme"&gt;
@@ -155,10 +155,9 @@ STATIC_PATHS = [&amp;quot;images&amp;quot;]
 &lt;/div&gt;
 &lt;div class="section" id="deploying-your-site-to-heroku-or-github-pages-for-free"&gt;
 &lt;h3&gt;Deploying your site to Heroku or Github Pages for free&lt;/h3&gt;
-&lt;p&gt;One of the advantages of having an static blog (apart from being the most modern of your colleagues) is that t
-it's easy to host your blog/site for free.&lt;/p&gt;
-&lt;p&gt;Github Pages has a nice tutorial on how to do it with any Github repository.&lt;/p&gt;
-&lt;p&gt;You could also take advantage of the &amp;quot;free dino&amp;quot; that Heroku provides to serve your site. In only requires an &lt;a class="reference external" href="http://kennethreitz.com/static-sites-on-heroku-cedar.html"&gt;easy extra step&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;One of the advantages of having an static blog (apart from being the most modern of your colleagues) is that it's easy to host your blog/site for free.&lt;/p&gt;
+&lt;p&gt;Github Pages provides free hosting for static pages of projects or users in Github. They have a &lt;a class="reference external" href="http://help.github.com/pages/"&gt;nice tutorial&lt;/a&gt; on how to create your static site, and it's also possible to use your own domain name. (This site is served in that way!)&lt;/p&gt;
+&lt;p&gt;You could also take advantage of the &amp;quot;free dino&amp;quot; that Heroku provides to serve your site. It only requires an &lt;a class="reference external" href="http://kennethreitz.com/static-sites-on-heroku-cedar.html"&gt;easy extra step&lt;/a&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 </summary><category term="blog"></category><category term="rst"></category><category term="pelican"></category></entry></feed>
