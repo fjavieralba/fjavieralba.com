@@ -48,7 +48,7 @@
     <p>Hi!</p>
 <p>I would like to start this blog speaking about <a class="reference external" href="http://blog.notmyidea.org/pelican-a-simple-static-blog-generator-in-python.html">Pelican</a>, a nice Python project initiated by <a class="reference external" href="http://notmyidea.org/">Alexis Metaireau</a>. It allows you to generate a complete static blog/site from <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> Templates. The blog you are reading just now is created in that way.</p>
 <p>Why would you do that? <em>First</em>: for pythonic fun. <em>Second</em>: because of the <strong>static</strong> part: your site will be a bunch of static files (HTML, CSS...). This could sound strange in 2012 but I think is a good way to go if you want to keep it simple. In addition, it's extremely easy to host a static site for free, even maintaining your own domain name. (We will see how later)</p>
-<p>That said, you will get in the box many functionalities you would expect from a blog site, including comments, socialize-buttons, pagination, tags, categories and so on.</p>
+<p>That said, you will get in the box many features you would expect from a blog site, including comments, socialize-buttons, pagination, tags, categories and so on.</p>
 <div class="section" id="restructuredtext">
 <h2>reStructuredText</h2>
 <p>You can write your posts and pages using reStructuredText or markdown.</p>
@@ -69,7 +69,7 @@ And this is a link to a page_
 <span class="p">..</span> <span class="nt">_page:</span> http://moliware.com/
 </pre></div>
 <p>reStructuredText is part of <a class="reference external" href="http://docutils.sourceforge.net/">docutils</a>, a powerful and open-source text processing system written in Python.</p>
-<p>In an <tt class="docutils literal">rst</tt> file you can specify links, insert images, code snippets and many other things. <a class="reference external" href="http://docutils.sourceforge.net/docs/user/rst/quickref.html">Here</a> you have a good overview of all its functionalities.</p>
+<p>In an <tt class="docutils literal">rst</tt> file you can specify links, insert images, code snippets and many other things. <a class="reference external" href="http://docutils.sourceforge.net/docs/user/rst/quickref.html">Here</a> you have a good overview of all its features.</p>
 <p>As you may know, it's used for generating documentation. For example, with <a class="reference external" href="http://sphinx.pocoo.org/">Sphinx</a> you write your <tt class="docutils literal">rst</tt> files once and then you can generate your documentation in multiple formats like PDF of HTML.</p>
 </div>
 <div class="section" id="installing-pelican">
@@ -155,7 +155,7 @@ This is an about page!
 <div class="section" id="configuring-your-blog">
 <h2>Configuring your blog</h2>
 <p>The <tt class="docutils literal">Pelican</tt> command optionally accepts a configuration file to customize some parts of your blog.</p>
-<p>E.g: output folder, date formats, pagination, disqus comments, Twitter integration... all these aspects and several more can be configured in a python configuration file and are supported by the &quot;official themes&quot;. (In fact, this will depend on the theme you are using. You can create your own pelican theme and choose what of these functionalities you will support.)</p>
+<p>E.g: output folder, date formats, pagination, disqus comments, Twitter integration... all these aspects and several more can be configured in a python configuration file and are supported by the &quot;official themes&quot;. (In fact, this will depend on the theme you are using. You can create your own pelican theme and choose what of these features you will support.)</p>
 <p>The following is an example of a Pelican configuration file:</p>
 <div class="highlight"><pre>DEFAULT_CATEGORY = &#39;Uncategorized&#39;
 
@@ -180,7 +180,7 @@ STATIC_PATHS = [&quot;images&quot;]
 <p>To tell pelican to use your configuration file simply run the command with the -s option:</p>
 <div class="highlight"><pre><span class="nv">$ </span>pelican rst/ -s &lt;CONF_FILE&gt;
 </pre></div>
-<p>You can see more details about pelican configuration in <a class="reference external" href="http://pelican.readthedocs.org/en/2.8/index.html">the officcial Pelican documentation</a></p>
+<p>You can see more details about pelican configuration in <a class="reference external" href="http://pelican.readthedocs.org/en/2.8/index.html">the official Pelican documentation</a></p>
 </div>
 <div class="section" id="extending-pelican">
 <h2>Extending Pelican</h2>
@@ -191,7 +191,7 @@ STATIC_PATHS = [&quot;images&quot;]
 <p>One way of customization is via configuration file. But if you want to go further, you can directly change your theme files.</p>
 <p>Themes usually consist in two parts: the <tt class="docutils literal">templates</tt> folder and the <tt class="docutils literal">static</tt> folder.
 <tt class="docutils literal">static</tt> usually contains CSS files, images, etc. and <tt class="docutils literal">templates</tt> contains <tt class="docutils literal">.html</tt> files that are actually <a class="reference external" href="http://jinja.pocoo.org/">Jinja</a> templates. Experimenting a bit and changing the CSS styles or the templates of an existing theme is sometimes all you need to personalize your new blog.</p>
-<p><a class="reference external" href="https://github.com/ametaireau/pelican-themes">In this Github repo</a> you can find all the &quot;officcial&quot; Pelican themes.</p>
+<p><a class="reference external" href="https://github.com/ametaireau/pelican-themes">In this Github repo</a> you can find all the &quot;official&quot; Pelican themes.</p>
 </div>
 <div class="section" id="creating-your-own-theme">
 <h3>Creating your own theme</h3>
