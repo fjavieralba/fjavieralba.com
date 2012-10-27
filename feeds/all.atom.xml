@@ -1,5 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>fjavieralba.com</title><link href="blog" rel="alternate"></link><link href="blog/feeds/all.atom.xml" rel="self"></link><id>blog</id><updated>2012-04-15T15:50:00+02:00</updated><entry><title>Pelican: a static blog generator for Pythonistas</title><link href="blog/pelican-a-static-blog-generator-for-pythonistas.html" rel="alternate"></link><updated>2012-04-15T15:50:00+02:00</updated><author><name>F. Javier Alba</name></author><id>blog/pelican-a-static-blog-generator-for-pythonistas.html</id><summary type="html">&lt;p&gt;Hi!&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>fjavieralba.com</title><link href="blog/" rel="alternate"></link><link href="blog/feeds/all.atom.xml" rel="self"></link><id>blog/</id><updated>2012-10-27T18:21:00+02:00</updated><entry><title>Compiling Unitex Corpus Processor</title><link href="blog/compiling-unitex-corpus-processor.html" rel="alternate"></link><updated>2012-10-27T18:21:00+02:00</updated><author><name>F. Javier Alba</name></author><id>tag:blog,2012-10-27:compiling-unitex-corpus-processor.html</id><summary type="html">&lt;p&gt;&lt;a class="reference external" href="http://www-igm.univ-mlv.fr/~unitex/"&gt;Unitex Corpus Processor&lt;/a&gt; is a very useful software component for some NLP tasks.&lt;/p&gt;
+&lt;p&gt;If you have ever needed to compile it as a dynamic library in Unix, with the following command:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+make 64BITS=yes LIBRARY=yes
+&lt;/pre&gt;
+&lt;p&gt;maybe you have found an error similar to this:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+g++ *.o -Wall -W -O3 -fPIC -D_NOT_UNDER_WINDOWS -DUNITEX_LIBRARY
+-I&amp;quot;../include_tre&amp;quot; -Ilibtre/include -I&amp;quot;..&amp;quot;  -Llibtre/lib -ltre -lpthread
+-shared -o ../bin/libunitex.so/usr/bin/ld: libtre/lib/libtre.a(regcomp.o):
+relocation R_X86_64_32 against `a local symbol' can not be used when making
+a shared object; recompile with -fPIC
+libtre/lib/libtre.a: could not read symbols: Bad value
+collect2: ld devolvió el estado de salida 1
+make: *** [.libunitex] Error 1
+&lt;/pre&gt;
+&lt;p&gt;I could solve this issue unzipping and installing the &amp;quot;tre&amp;quot; library included in Unitex distribution (&lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;&amp;lt;UNITEX_DIR&amp;gt;/Src/C++/tre-0.8.0.tar.gz&lt;/span&gt;&lt;/tt&gt;):&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+cd ..
+tar xvfz tre-0.8.0.tar.gz
+cd tre-0.8.0
+
+./configure
+make
+&lt;/pre&gt;
+&lt;p&gt;And, as &amp;quot;root&amp;quot;:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+make install
+&lt;/pre&gt;
+&lt;p&gt;Then, return to &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;&amp;lt;UNITEX_DIR&amp;gt;/Src/C++/build&lt;/span&gt;&lt;/tt&gt; and execute the following command (all in one line):&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+g++ *.o -Wall -W -O3 -fPIC -D_NOT_UNDER_WINDOWS -DUNITEX_LIBRARY -I&amp;quot;../include_tre&amp;quot;
+-Ilibtre/include -I&amp;quot;..&amp;quot;  -L/usr/local/lib -ltre -lpthread -shared
+-o ../bin/libunitex.so
+&lt;/pre&gt;
+&lt;p&gt;If all goes well, you will have your Unitex library in &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;&amp;lt;UNITEX_DIR&amp;gt;/Src/C++/bin/libunitex.so&lt;/span&gt;&lt;/tt&gt;&lt;/p&gt;
+&lt;p&gt;Hope it helps!&lt;/p&gt;
+</summary><category term="nlp"></category><category term="unitex"></category><category term="issues"></category><category term="unix"></category></entry><entry><title>Pelican: a static blog generator for Pythonistas</title><link href="blog/pelican-a-static-blog-generator-for-pythonistas.html" rel="alternate"></link><updated>2012-04-15T15:50:00+02:00</updated><author><name>F. Javier Alba</name></author><id>tag:blog,2012-04-15:pelican-a-static-blog-generator-for-pythonistas.html</id><summary type="html">&lt;p&gt;Hi!&lt;/p&gt;
 &lt;p&gt;I would like to start this blog speaking about &lt;a class="reference external" href="http://blog.notmyidea.org/pelican-a-simple-static-blog-generator-in-python.html"&gt;Pelican&lt;/a&gt;, a nice Python project initiated by &lt;a class="reference external" href="http://notmyidea.org/"&gt;Alexis Metaireau&lt;/a&gt;. It allows you to generate a complete static blog/site from &lt;a class="reference external" href="http://docutils.sourceforge.net/rst.html"&gt;reStructuredText&lt;/a&gt; Templates. The blog you are reading just now is created in that way.&lt;/p&gt;
 &lt;p&gt;Why would you do that? &lt;em&gt;First&lt;/em&gt;: for pythonic fun. &lt;em&gt;Second&lt;/em&gt;: because of the &lt;strong&gt;static&lt;/strong&gt; part: your site will be a bunch of static files (HTML, CSS...). This could sound strange in 2012 but I think is a good way to go if you want to keep it simple. In addition, it's extremely easy to host a static site for free, even maintaining your own domain name. (We will see how later)&lt;/p&gt;
 &lt;p&gt;That said, you will get in the box many features you would expect from a blog site, including comments, socialize-buttons, pagination, tags, categories and so on.&lt;/p&gt;

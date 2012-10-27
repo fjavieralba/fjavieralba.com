@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>fjavieralba.com</title><link href="blog/" rel="alternate"></link><link href="blog/feeds/issues.atom.xml" rel="self"></link><id>blog/</id><updated>2012-10-27T18:21:00+02:00</updated><entry><title>Compiling Unitex Corpus Processor</title><link href="blog/compiling-unitex-corpus-processor.html" rel="alternate"></link><updated>2012-10-27T18:21:00+02:00</updated><author><name>F. Javier Alba</name></author><id>tag:blog,2012-10-27:compiling-unitex-corpus-processor.html</id><summary type="html">&lt;p&gt;&lt;a class="reference external" href="http://www-igm.univ-mlv.fr/~unitex/"&gt;Unitex Corpus Processor&lt;/a&gt; is a very useful software component for some NLP tasks.&lt;/p&gt;
+&lt;p&gt;If you have ever needed to compile it as a dynamic library in Unix, with the following command:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+make 64BITS=yes LIBRARY=yes
+&lt;/pre&gt;
+&lt;p&gt;maybe you have found an error similar to this:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+g++ *.o -Wall -W -O3 -fPIC -D_NOT_UNDER_WINDOWS -DUNITEX_LIBRARY
+-I&amp;quot;../include_tre&amp;quot; -Ilibtre/include -I&amp;quot;..&amp;quot;  -Llibtre/lib -ltre -lpthread
+-shared -o ../bin/libunitex.so/usr/bin/ld: libtre/lib/libtre.a(regcomp.o):
+relocation R_X86_64_32 against `a local symbol' can not be used when making
+a shared object; recompile with -fPIC
+libtre/lib/libtre.a: could not read symbols: Bad value
+collect2: ld devolvió el estado de salida 1
+make: *** [.libunitex] Error 1
+&lt;/pre&gt;
+&lt;p&gt;I could solve this issue unzipping and installing the &amp;quot;tre&amp;quot; library included in Unitex distribution (&lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;&amp;lt;UNITEX_DIR&amp;gt;/Src/C++/tre-0.8.0.tar.gz&lt;/span&gt;&lt;/tt&gt;):&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+cd ..
+tar xvfz tre-0.8.0.tar.gz
+cd tre-0.8.0
+
+./configure
+make
+&lt;/pre&gt;
+&lt;p&gt;And, as &amp;quot;root&amp;quot;:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+make install
+&lt;/pre&gt;
+&lt;p&gt;Then, return to &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;&amp;lt;UNITEX_DIR&amp;gt;/Src/C++/build&lt;/span&gt;&lt;/tt&gt; and execute the following command (all in one line):&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+g++ *.o -Wall -W -O3 -fPIC -D_NOT_UNDER_WINDOWS -DUNITEX_LIBRARY -I&amp;quot;../include_tre&amp;quot;
+-Ilibtre/include -I&amp;quot;..&amp;quot;  -L/usr/local/lib -ltre -lpthread -shared
+-o ../bin/libunitex.so
+&lt;/pre&gt;
+&lt;p&gt;If all goes well, you will have your Unitex library in &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;&amp;lt;UNITEX_DIR&amp;gt;/Src/C++/bin/libunitex.so&lt;/span&gt;&lt;/tt&gt;&lt;/p&gt;
+&lt;p&gt;Hope it helps!&lt;/p&gt;
+</summary><category term="nlp"></category><category term="unitex"></category><category term="issues"></category><category term="unix"></category></entry></feed>
