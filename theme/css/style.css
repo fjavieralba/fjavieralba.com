@@ -39,7 +39,7 @@ div.footer                  { border-top: 1px dotted #ddd; padding-top: 9px;
 div.footer a                { color: #888; }
 div.footer p                { margin: 0; }
 
-div.social                  { padding-top: 10px; padding-bottom: 10px;}
+div.social                  { padding-top: 20px; padding-bottom: 10px;}
 div.social a                { color: #888; text-decoration: none;}
 div.social ul               { margin: 0; padding: 0; list-style: none; }
 div.social ul li            { display: inline; margin: 0 2px; padding: 0; }
@@ -56,9 +56,20 @@ h1 + p.date                     { margin-top: -20px; font-style: italic; }
 /* code formatting.  no monospace because of webkit (bug?) */
 pre, code, tt   { font-family: 'Consolas', 'Deja Vu Sans Mono',
                   'Bitstream Vera Sans Mono', 'Monaco', 'Courier New';
-                  font-size: 0.82em; }
+                  font-size: 0.82em;
+                }
 pre             { line-height: 1.3; border: 1px solid #ddd; padding: 10px;
-                  background: #fafafa; }
+                  /* background: #fafafa; */
+                  background-color: ghostWhite;
+                  -moz-border-radius-bottomleft: 10px;
+                  -webkit-border-bottom-left-radius: 10px;
+                  -moz-border-radius-bottomright: 10px;
+                  -webkit-border-bottom-right-radius: 10px;
+                  -moz-border-radius-topleft: 10px;
+                  -webkit-border-top-left-radius: 10px;
+                  -moz-border-radius-topright: 10px;
+                  -webkit-border-top-right-radius: 10px;
+                }
 code, tt        { background: #eee; }
 
 /* tables */
@@ -115,4 +126,36 @@ div.blog-epilogue a         {text-decoration: none;
 img.align-left { 
     float: left; 
     margin: 20px; 
+}
+
+/* github gists */
+.gist{
+  margin: 15px 0 !important;
+}
+
+.gist-file{
+  border: none !important;
+}
+
+.gist-meta{
+  height: 17px !important;
+  border: 1px solid #D2d2d2 !important;
+  padding-top: 1px !important;;
+  /*padding: 0px !important;*/
+  -moz-border-radius-bottomleft: 10px;
+  -webkit-border-bottom-left-radius: 10px;
+  -moz-border-radius-bottomright: 10px;
+  -webkit-border-bottom-right-radius: 10px;
+  font-size: 0.50em !important;
+
+}
+
+.gist-data{
+  padding: 15px !important;
+  border: 1px solid #D2d2d2 !important;
+  border-bottom: none !important;
+  -moz-border-radius-topleft: 10px;
+  -webkit-border-top-left-radius: 10px;
+  -moz-border-radius-topright: 10px;
+  -webkit-border-top-right-radius: 10px;
 }
