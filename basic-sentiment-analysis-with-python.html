@@ -54,7 +54,7 @@
 <p>These techniques come 100% from experience in real-life projects. Don't expect a theoretical introduction of Sentiment Analysis and the multiple strategies out there to achieve opinion mining, this is only a practical example of applying some basic rules to extract the polarity (positive or negative) of a text.</p>
 <p>Let's start looking at an example opinion:</p>
 <blockquote>
-<em>&quot;What can I say about this place. The staff of the restaurant is nice and the lamb is not bad. Apart from that, very uninspired food, lack of atmosphere and too expensive. I am a staunch vegetarian and was sorely dissapointed with the veggie options on the menu. Will be the last time I visit, I recommend others to avoid.&quot;</em></blockquote>
+<em>&quot;What can I say about this place. The staff of the restaurant is nice and the eggplant is not bad. Apart from that, very uninspired food, lack of atmosphere and too expensive. I am a staunch vegetarian and was sorely dissapointed with the veggie options on the menu. Will be the last time I visit, I recommend others to avoid.&quot;</em></blockquote>
 <p>As you can see, this is a mainly negative review about a restaurant.</p>
 <p><strong>General or detailed sentiment</strong></p>
 <p>Sometimes we only want an overall rating of the sentiment of the whole review. In other cases, we need a little more detail, and we want each negative or positive comment identified.</p>
@@ -190,8 +190,8 @@ The most remarkable thing about it is that it uses information about the previou
 <p>With the approach we've been following so far, some expressions could be incorrectly tagged.
 For example, this part of our example review:</p>
 <blockquote>
-<em>the lamb is not bad</em></blockquote>
-<p>contains the word <em>bad</em> but the sentence is a positive opinion about the lamb.</p>
+<em>the eggplant is not bad</em></blockquote>
+<p>contains the word <em>bad</em> but the sentence is a positive opinion about the eggplant.</p>
 <p>This is because the appearance of the negation word <em>not</em>, that flips the meaning of the negative adjective <em>bad</em>.</p>
 <p>We could take into account these types of polarity flips defining a dictionary of inverters:</p>
 <p><strong>inv.yml</strong></p>

@@ -3,7 +3,7 @@
 &lt;p&gt;These techniques come 100% from experience in real-life projects. Don't expect a theoretical introduction of Sentiment Analysis and the multiple strategies out there to achieve opinion mining, this is only a practical example of applying some basic rules to extract the polarity (positive or negative) of a text.&lt;/p&gt;
 &lt;p&gt;Let's start looking at an example opinion:&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;em&gt;&amp;quot;What can I say about this place. The staff of the restaurant is nice and the lamb is not bad. Apart from that, very uninspired food, lack of atmosphere and too expensive. I am a staunch vegetarian and was sorely dissapointed with the veggie options on the menu. Will be the last time I visit, I recommend others to avoid.&amp;quot;&lt;/em&gt;&lt;/blockquote&gt;
+&lt;em&gt;&amp;quot;What can I say about this place. The staff of the restaurant is nice and the eggplant is not bad. Apart from that, very uninspired food, lack of atmosphere and too expensive. I am a staunch vegetarian and was sorely dissapointed with the veggie options on the menu. Will be the last time I visit, I recommend others to avoid.&amp;quot;&lt;/em&gt;&lt;/blockquote&gt;
 &lt;p&gt;As you can see, this is a mainly negative review about a restaurant.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;General or detailed sentiment&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Sometimes we only want an overall rating of the sentiment of the whole review. In other cases, we need a little more detail, and we want each negative or positive comment identified.&lt;/p&gt;
@@ -139,8 +139,8 @@ The most remarkable thing about it is that it uses information about the previou
 &lt;p&gt;With the approach we've been following so far, some expressions could be incorrectly tagged.
 For example, this part of our example review:&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;em&gt;the lamb is not bad&lt;/em&gt;&lt;/blockquote&gt;
-&lt;p&gt;contains the word &lt;em&gt;bad&lt;/em&gt; but the sentence is a positive opinion about the lamb.&lt;/p&gt;
+&lt;em&gt;the eggplant is not bad&lt;/em&gt;&lt;/blockquote&gt;
+&lt;p&gt;contains the word &lt;em&gt;bad&lt;/em&gt; but the sentence is a positive opinion about the eggplant.&lt;/p&gt;
 &lt;p&gt;This is because the appearance of the negation word &lt;em&gt;not&lt;/em&gt;, that flips the meaning of the negative adjective &lt;em&gt;bad&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;We could take into account these types of polarity flips defining a dictionary of inverters:&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;inv.yml&lt;/strong&gt;&lt;/p&gt;
