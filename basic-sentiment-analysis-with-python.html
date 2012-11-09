@@ -212,6 +212,23 @@ For example, this part of our example review:</p>
         </script>
         <p>It's now -5.0 since &quot;not bad&quot; is considered positive.</p>
 </div>
+<div class="section" id="conclusion">
+<h2>Conclusion</h2>
+<p>We have seen a little introduction to some basic techniques and algorithms that can give us an overall &quot;score&quot; of how positive or negative a review is.</p>
+<p>The steps we've followed are:</p>
+<blockquote>
+<ul class="simple">
+<li>Split the text into sentences, and each sentence into tokens</li>
+<li>Add POS (Part Of Speech) tags to the Splitted text, using NLTK</li>
+<li>Enrich the POS-tagged text with our own tags using dictionaries. These tags are in a different &quot;semantic level&quot; than POS-tags: &quot;positive&quot;, &quot;negative&quot;, &quot;inverter&quot;, &quot;incrementer&quot; and &quot;decrementer&quot;</li>
+<li>Implement some basic extraction rules over the tagged text, in form of python functions</li>
+</ul>
+</blockquote>
+<p>That could be a good starting point to someone interested in sentiment analysis, but this is only the very beginning.</p>
+<p>In a real-life system you should work harder, especially in the extraction-rules part (and, of course, in the dictionaries).</p>
+<p>The method described so far is a rule-based approach. There are other techniques to perform sentiment analysis, for example, applying machine-learning algorithms. In any case, I think that advanced rule-based or machine-learning systems are out of scope in an introductory post like this.</p>
+<p>I hope you enjoyed the reading!</p>
+</div>
 
     
     
