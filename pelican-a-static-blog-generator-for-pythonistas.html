@@ -24,31 +24,20 @@
   </head>
   <body>
     <div class=container>
-        
-            
+                    
       <div class=navigation>
         <ul>
-          
-            <li><a href="./index.html">Blog</a> </li>
-          
-            <li><a href="./archives.html">Archive</a> </li>
-          
-            <li><a href="./tags.html">Tags</a> </li>
-          
-            <li><a href="./pages/projects.html">Projects</a> </li>
-          
-            <li><a href="./pages/talks.html">Talks</a> </li>
-          
-            <li><a href="./pages/about-me.html">About</a> </li>
-          
-        </ul>
+                      <li><a href="./index.html">Blog</a> </li>
+                      <li><a href="./archives.html">Archive</a> </li>
+                      <li><a href="./tags.html">Tags</a> </li>
+                      <li><a href="./pages/projects.html">Projects</a> </li>
+                      <li><a href="./pages/talks.html">Talks</a> </li>
+                      <li><a href="./pages/about-me.html">About</a> </li>
+                  </ul>
       </div>
-      <div class=separator></div>
-        
-        
+      <div class=separator></div>                
         <div class=body>
-        
-    <h1 class="title"> Pelican: a static blog generator for Pythonistas</h1>
+            <h1 class="title"> Pelican: a static blog generator for Pythonistas</h1>
     <p class=date> 15 April 2012 </p>
     <p>Hi!</p>
 <p>I would like to start this blog speaking about <a class="reference external" href="http://blog.notmyidea.org/pelican-a-simple-static-blog-generator-in-python.html">Pelican</a>, a nice Python project initiated by <a class="reference external" href="http://notmyidea.org/">Alexis Metaireau</a>. It allows you to generate a complete static blog/site from <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> Templates. The blog you are reading just now is created in that way.</p>
@@ -93,7 +82,7 @@ $ pelican my_blog
 </pre>
 <p>This command will generate an <tt class="docutils literal">output</tt> folder with an entire blog site with the default content.
 If you open the <tt class="docutils literal">index.html</tt> file inside <tt class="docutils literal">output</tt> you will see something similar to:</p>
-<img alt="images/pelican_default.png" class="align-center" src="static/images/pelican_default.png" />
+<img alt="images/pelican_default.png" class="align-center" src="images/pelican_default.png" />
 </div>
 <div class="section" id="writing-posts">
 <h2>Writing posts</h2>
@@ -137,7 +126,7 @@ And this is a link to a page_
 <ul class="simple">
 <li>Open <tt class="docutils literal">my_blog/output/index.html</tt> and you will see your post in html format:</li>
 </ul>
-<img alt="images/first_post.png" class="align-center" src="static/images/first_post.png" />
+<img alt="images/first_post.png" class="align-center" src="images/first_post.png" />
 </div>
 <div class="section" id="writing-pages">
 <h2>Writing pages</h2>
@@ -155,7 +144,7 @@ And this is a link to a page_
 This is an about page!
 </pre></div>
 <p>Run again the pelican script against your sources and it will generate also the new page:</p>
-<img alt="images/page.png" class="align-center" src="static/images/page.png" />
+<img alt="images/page.png" class="align-center" src="images/page.png" />
 </div>
 <div class="section" id="configuring-your-blog">
 <h2>Configuring your blog</h2>
@@ -214,21 +203,15 @@ STATIC_PATHS = [&quot;images&quot;]
 </div>
 
     
-    
-<div class=twitter>
+    <div class=twitter>
 <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 </div>
-
     <p class=tags>This entry was tagged as
-      
-      <a href="./tag/blog.html">blog</a>
-      
-      <a href="./tag/rst.html">rst</a>
-      
-      <a href="./tag/pelican.html">pelican</a>
-      
-    </p>
+            <a href="./tag/blog.html">blog</a>
+            <a href="./tag/rst.html">rst</a>
+            <a href="./tag/pelican.html">pelican</a>
+          </p>
     <div id="disqus_thread"></div>
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
@@ -242,13 +225,10 @@ STATIC_PATHS = [&quot;images&quot;]
     })();
 </script>
 <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
-
-        </div>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>        </div>
         
-        
-            <div class=footer>
-  <p>&copy; Copyright 2012 by F. Javier Alba</p>
+                    <div class=footer>
+  <p>&copy; Copyright <script language="JavaScript">var date = new Date(); document.write(date.getFullYear());</script> by F. Javier Alba</p>
   <p> Powered by <a href="http://pypi.python.org/pypi/pelican/" target="_blank">Pelican</a>.  
     <a href="https://github.com/fjavieralba/flasky">Theme</a>  by <a href="http://fjavieralba.com">fjavieralba</a>
   </p> 
@@ -269,8 +249,6 @@ STATIC_PATHS = [&quot;images&quot;]
       </ul>
     </div>
   </p>
-</div>
-        
-    </div>
+</div>            </div>
   </body>
 </html>
