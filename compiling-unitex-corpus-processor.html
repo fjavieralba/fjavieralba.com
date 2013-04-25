@@ -43,8 +43,12 @@ make: *** [.libunitex] Error 1
 </pre>
 <p>Or maybe your error looks like this (Unitex 3.0):</p>
 <pre class="literal-block">
-g++ *.o -Wall -O3 -fPIC -D_NOT_UNDER_WINDOWS -DUNITEX_LIBRARY -I&quot;../include_tre&quot; -Ilibtre/include -I&quot;..&quot;  -Llibtre/lib -ltre   -lpthread -shared -o ../bin/libunitex.so
-/usr/bin/ld: libtre/lib/libtre.a(regerror.o): relocation R_X86_64_32S against `.rodata' can not be used when making a shared object; recompile with -fPIC
+g++ *.o -Wall -O3 -fPIC -D_NOT_UNDER_WINDOWS -DUNITEX_LIBRARY
+-I&quot;../include_tre&quot; -Ilibtre/include -I&quot;..&quot;  -Llibtre/lib -ltre   -lpthread
+-shared -o ../bin/libunitex.so
+/usr/bin/ld: libtre/lib/libtre.a(regerror.o): relocation R_X86_64_32S
+against `.rodata' can not be used when making a shared object;
+recompile with -fPIC
 libtre/lib/libtre.a: could not read symbols: Bad value
 collect2: ld returned 1 exit status
 make: *** [.libunitex] Error 1
