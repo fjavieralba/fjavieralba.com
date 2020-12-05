@@ -12,19 +12,22 @@
   </head>
   <body>
     <div class=container>
-                    
-      <div class=navigation>
-        <ul>
-                      <li><a href="./index.html">Blog</a> </li>
-                      <li><a href="./archives.html">Archive</a> </li>
-                      <li><a href="./pages/talks.html">Talks</a> </li>
-                      <li><a href="./pages/about-me.html">About</a> </li>
-                  </ul>
-      </div>
-      <div class=separator></div>                
+<div class="header">
+    <a href="./">fjavieralba.com</a> <span class="muted"></span>
+</div>
+
+<div class=navigation>
+    <ul>
+            <li><a href="./index.html">Blog</a> </li>
+            <li><a href="./archives.html">Archive</a> </li>
+            <li><a href="./pages/talks.html">Talks</a> </li>
+            <li><a href="./pages/about-me.html">About</a> </li>
+    </ul>
+</div>
+<div class=separator></div>        
         <div class=body>
-            <h1 class="title"> Basic Sentiment Analysis with Python</h1>
-    <p class=date> 01 nov 2012 </p>
+    <h1 class="title"> Basic Sentiment Analysis with Python</h1>
+    <p class=date> 01 Nov 2012 </p>
     <p>[Update]: you can check out the code on <a class="reference external" href="https://github.com/fjavieralba/basic_sentiment_analysis">Github</a></p>
 <p>In this post I will try to give a very introductory view of some techniques that could be useful when you want to perform a basic analysis of opinions written in english.</p>
 <p>These techniques come 100% from experience in real-life projects. Don't expect a theoretical introduction of Sentiment Analysis and the multiple strategies out there to achieve opinion mining, this is only a practical example of applying some basic rules to extract the polarity (positive or negative) of a text.</p>
@@ -57,21 +60,21 @@ To compute the polarity of a review, I'm going to use an approach based on dicti
 </blockquote>
 <p>This is a structure type I've found quite useful. Is ready for some &quot;advanced&quot; processing (lemmatization, multiple tags) without being too complex (at least in Python).</p>
 <p>This is an example of a POS-tagged paragraph:</p>
-<div class="highlight"><pre> <span class="p">[[(</span><span class="s">&#39;All&#39;</span><span class="p">,</span> <span class="s">&#39;All&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;DT&#39;</span><span class="p">]),</span>
- <span class="p">(</span><span class="s">&#39;that&#39;</span><span class="p">,</span> <span class="s">&#39;that&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;DT&#39;</span><span class="p">]),</span>
- <span class="p">(</span><span class="s">&#39;is&#39;</span><span class="p">,</span> <span class="s">&#39;is&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;VBZ&#39;</span><span class="p">]),</span>
- <span class="p">(</span><span class="s">&#39;gold&#39;</span><span class="p">,</span> <span class="s">&#39;gold&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;NN&#39;</span><span class="p">]),</span>
- <span class="p">(</span><span class="s">&#39;does&#39;</span><span class="p">,</span> <span class="s">&#39;does&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;VBZ&#39;</span><span class="p">]),</span>
- <span class="p">(</span><span class="s">&#39;not&#39;</span><span class="p">,</span> <span class="s">&#39;not&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;RB&#39;</span><span class="p">]),</span>
- <span class="p">(</span><span class="s">&#39;glitter&#39;</span><span class="p">,</span> <span class="s">&#39;glitter&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;VB&#39;</span><span class="p">]),</span>
- <span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">,</span> <span class="s">&#39;.&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;.&#39;</span><span class="p">])],</span>
-<span class="p">[(</span><span class="s">&#39;Not&#39;</span><span class="p">,</span> <span class="s">&#39;Not&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;RB&#39;</span><span class="p">]),</span>
- <span class="p">(</span><span class="s">&#39;all&#39;</span><span class="p">,</span> <span class="s">&#39;all&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;DT&#39;</span><span class="p">]),</span>
- <span class="p">(</span><span class="s">&#39;those&#39;</span><span class="p">,</span> <span class="s">&#39;those&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;DT&#39;</span><span class="p">]),</span>
- <span class="p">(</span><span class="s">&#39;who&#39;</span><span class="p">,</span> <span class="s">&#39;who&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;WP&#39;</span><span class="p">]),</span>
- <span class="p">(</span><span class="s">&#39;wander&#39;</span><span class="p">,</span> <span class="s">&#39;wander&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;NN&#39;</span><span class="p">]),</span>
- <span class="p">(</span><span class="s">&#39;are&#39;</span><span class="p">,</span> <span class="s">&#39;are&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;VBP&#39;</span><span class="p">]),</span>
- <span class="p">(</span><span class="s">&#39;lost&#39;</span><span class="p">,</span> <span class="s">&#39;lost&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;VBN&#39;</span><span class="p">])]]</span>
+<div class="highlight"><pre><span></span> <span class="p">[[(</span><span class="s1">&#39;All&#39;</span><span class="p">,</span> <span class="s1">&#39;All&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;DT&#39;</span><span class="p">]),</span>
+ <span class="p">(</span><span class="s1">&#39;that&#39;</span><span class="p">,</span> <span class="s1">&#39;that&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;DT&#39;</span><span class="p">]),</span>
+ <span class="p">(</span><span class="s1">&#39;is&#39;</span><span class="p">,</span> <span class="s1">&#39;is&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;VBZ&#39;</span><span class="p">]),</span>
+ <span class="p">(</span><span class="s1">&#39;gold&#39;</span><span class="p">,</span> <span class="s1">&#39;gold&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;NN&#39;</span><span class="p">]),</span>
+ <span class="p">(</span><span class="s1">&#39;does&#39;</span><span class="p">,</span> <span class="s1">&#39;does&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;VBZ&#39;</span><span class="p">]),</span>
+ <span class="p">(</span><span class="s1">&#39;not&#39;</span><span class="p">,</span> <span class="s1">&#39;not&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;RB&#39;</span><span class="p">]),</span>
+ <span class="p">(</span><span class="s1">&#39;glitter&#39;</span><span class="p">,</span> <span class="s1">&#39;glitter&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;VB&#39;</span><span class="p">]),</span>
+ <span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;.&#39;</span><span class="p">])],</span>
+<span class="p">[(</span><span class="s1">&#39;Not&#39;</span><span class="p">,</span> <span class="s1">&#39;Not&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;RB&#39;</span><span class="p">]),</span>
+ <span class="p">(</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;DT&#39;</span><span class="p">]),</span>
+ <span class="p">(</span><span class="s1">&#39;those&#39;</span><span class="p">,</span> <span class="s1">&#39;those&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;DT&#39;</span><span class="p">]),</span>
+ <span class="p">(</span><span class="s1">&#39;who&#39;</span><span class="p">,</span> <span class="s1">&#39;who&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;WP&#39;</span><span class="p">]),</span>
+ <span class="p">(</span><span class="s1">&#39;wander&#39;</span><span class="p">,</span> <span class="s1">&#39;wander&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;NN&#39;</span><span class="p">]),</span>
+ <span class="p">(</span><span class="s1">&#39;are&#39;</span><span class="p">,</span> <span class="s1">&#39;are&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;VBP&#39;</span><span class="p">]),</span>
+ <span class="p">(</span><span class="s1">&#39;lost&#39;</span><span class="p">,</span> <span class="s1">&#39;lost&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;VBN&#39;</span><span class="p">])]]</span>
 </pre></div>
 </div>
 <div class="section" id="prepocessing-the-text">
@@ -92,17 +95,17 @@ To compute the polarity of a review, I'm going to use an approach based on dicti
 <p>The next step is to recognize positive and negative expressions. To achieve this, I'm going to use dictionaries, i.e. simple files containing expressions that will be searched in our text.</p>
 <p>For example, I'm going to define two tiny dictionaries, one for positive expressions and other for negative ones:</p>
 <p><strong>positive.yml</strong></p>
-<div class="highlight"><pre><span class="l-Scalar-Plain">nice</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">positive</span><span class="p-Indicator">]</span>
-<span class="l-Scalar-Plain">awesome</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">positive</span><span class="p-Indicator">]</span>
-<span class="l-Scalar-Plain">cool</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">positive</span><span class="p-Indicator">]</span>
-<span class="l-Scalar-Plain">superb</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">positive</span><span class="p-Indicator">]</span>
+<div class="highlight"><pre><span></span><span class="nt">nice</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">positive</span><span class="p p-Indicator">]</span>
+<span class="nt">awesome</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">positive</span><span class="p p-Indicator">]</span>
+<span class="nt">cool</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">positive</span><span class="p p-Indicator">]</span>
+<span class="nt">superb</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">positive</span><span class="p p-Indicator">]</span>
 </pre></div>
 <p><strong>negative.yml</strong></p>
-<div class="highlight"><pre><span class="l-Scalar-Plain">bad</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">negative</span><span class="p-Indicator">]</span>
-<span class="l-Scalar-Plain">uninspired</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">negative</span><span class="p-Indicator">]</span>
-<span class="l-Scalar-Plain">expensive</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">negative</span><span class="p-Indicator">]</span>
-<span class="l-Scalar-Plain">dissapointed</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">negative</span><span class="p-Indicator">]</span>
-<span class="l-Scalar-Plain">recommend others to avoid</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">negative</span><span class="p-Indicator">]</span>
+<div class="highlight"><pre><span></span><span class="nt">bad</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">negative</span><span class="p p-Indicator">]</span>
+<span class="nt">uninspired</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">negative</span><span class="p p-Indicator">]</span>
+<span class="nt">expensive</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">negative</span><span class="p p-Indicator">]</span>
+<span class="nt">dissapointed</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">negative</span><span class="p p-Indicator">]</span>
+<span class="nt">recommend others to avoid</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">negative</span><span class="p p-Indicator">]</span>
 </pre></div>
 <p>In case you were wondering, we could have used a simpler format, or used only one file, but this dictionary format will be useful later.</p>
 <p>Note that these are only two example dictionaries, useless in a real life project.</p>
@@ -137,13 +140,13 @@ To compute the polarity of a review, I'm going to use an approach based on dicti
 <p>A way of defining this &quot;strength&quot; could be using two new dictionaries. One for &quot;incrementers&quot; and another for &quot;decrementers&quot;.</p>
 <p>Let's define two tiny examples:</p>
 <p><strong>inc.yml</strong></p>
-<div class="highlight"><pre><span class="l-Scalar-Plain">too</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">inc</span><span class="p-Indicator">]</span>
-<span class="l-Scalar-Plain">very</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">inc</span><span class="p-Indicator">]</span>
-<span class="l-Scalar-Plain">sorely</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">inc</span><span class="p-Indicator">]</span>
+<div class="highlight"><pre><span></span><span class="nt">too</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">inc</span><span class="p p-Indicator">]</span>
+<span class="nt">very</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">inc</span><span class="p p-Indicator">]</span>
+<span class="nt">sorely</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">inc</span><span class="p p-Indicator">]</span>
 </pre></div>
 <p><strong>dec.yml</strong></p>
-<div class="highlight"><pre><span class="l-Scalar-Plain">barely</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">dec</span><span class="p-Indicator">]</span>
-<span class="l-Scalar-Plain">little</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">dec</span><span class="p-Indicator">]</span>
+<div class="highlight"><pre><span></span><span class="nt">barely</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">dec</span><span class="p p-Indicator">]</span>
+<span class="nt">little</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">dec</span><span class="p p-Indicator">]</span>
 </pre></div>
 <p>We instantiate again our tagger, telling it to use these two new dictionaries:</p>
 
@@ -171,8 +174,8 @@ For example, this part of our example review:</p>
 <p>This is because the appearance of the negation word <em>not</em>, that flips the meaning of the negative adjective <em>bad</em>.</p>
 <p>We could take into account these types of polarity flips defining a dictionary of inverters:</p>
 <p><strong>inv.yml</strong></p>
-<div class="highlight"><pre><span class="l-Scalar-Plain">lack of</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">inv</span><span class="p-Indicator">]</span>
-<span class="l-Scalar-Plain">not</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">inv</span><span class="p-Indicator">]</span>
+<div class="highlight"><pre><span></span><span class="nt">lack of</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">inv</span><span class="p p-Indicator">]</span>
+<span class="nt">not</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">inv</span><span class="p p-Indicator">]</span>
 </pre></div>
 <p>When tagging our text, we should also specify this new dictionary in the instantiation of our tagger:</p>
 
@@ -207,54 +210,50 @@ For example, this part of our example review:</p>
 </div>
 
     
-    <div class=twitter>
-<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-</div>
-        <p class=tags>This entry was tagged as
-            <a href="./tag/python.html">python</a>
-            <a href="./tag/nlp.html">nlp</a>
-            <a href="./tag/sentiment-analysis.html">sentiment analysis</a>
-          </p>
-        <div id="disqus_thread"></div>
-<script type="text/javascript">
+    <p class=tags>This entry was tagged as
+      <a href="./tag/python.html">python</a>
+      <a href="./tag/nlp.html">nlp</a>
+      <a href="./tag/sentiment-analysis.html">sentiment analysis</a>
+    </p>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
     var disqus_shortname = 'fjavieralba'; // required: replace example with your forum shortname
-
     /* * * DON'T EDIT BELOW THIS LINE * * */
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>        </div>
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+    <a href="https://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
         
-                    <div class=footer>
-  <p>&copy; Copyright <script language="JavaScript">var date = new Date(); document.write(date.getFullYear());</script> by F. Javier Alba</p>
+<div class=footer>
+  <p>&copy; Copyright <script language="JavaScript">var date = new Date(); document.write(date.getFullYear());</script> by Javier Alba</p>
   <p> Powered by <a href="http://pypi.python.org/pypi/pelican/" target="_blank">Pelican</a>.  
     <a href="https://github.com/fjavieralba/flasky">Theme</a>  by <a href="http://fjavieralba.com">fjavieralba</a>
   </p> 
   <p>
     <div class=social style="font-size: 27px;">
       <ul>
-        <script language="JavaScript">
-          u = 'me';
-          s = 'fjavieralba.com';
-          document.write('<a href=\"mailto:' + u + '@' + s + '\" target=\"_blank\">');
-        </script>
-            <li><i class="icon-envelope icon-large"></i> </li>
-        </a>
-        <a href="http://twitter.com/fjavieralba" target="_blank"> <li> <i class="icon-twitter-sign icon-large"> </li></i> </a>
-        <a href="http://es.linkedin.com/in/fjavieralba/en"><li><i class="icon-linkedin-sign icon-large" ></i></li></a>
-        <a href="http://github.com/fjavieralba" target="_blank"> <li> <i class="icon-github-sign icon-large"></i> </li> </a>
+        <!-- mail: -->
+        <!-- twitter: -->
+          <a href="http://twitter.com/fjavieralba" target="_blank"><li><i class="icon-twitter-sign icon-large" ></i></li></a>
+        
+        <!-- linkedin -->
+            <a href="http://es.linkedin.com/in/fjavieralba/en" target="_blank"><li><i class="icon-linkedin-sign icon-large" ></i></li></a>
+        
+            <a href="http://github.com/fjavieralba" target="_blank"><li><i class="icon-github-sign icon-large" ></i></li></a>
+        
         <a href="./feeds/all.rss.xml" rel="alternate" title="Recent Blog Posts"><li> <i class="icon-rss icon-large"></i> </li></a>
       </ul>
     </div>
   </p>
-</div>            </div>
-        <script type="text/javascript">
+</div>    </div>
+    <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-30867493-1']);
       _gaq.push(['_trackPageview']);
@@ -265,5 +264,5 @@ For example, this part of our example review:</p>
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
     </script>
-      </body>
+  </body>
 </html>
