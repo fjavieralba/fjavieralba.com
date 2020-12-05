@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>fjavieralba.com - Javier Alba</title><link href="./" rel="alternate"></link><link href="./feeds/javier-alba.atom.xml" rel="self"></link><id>./</id><updated>2012-11-01T00:00:00+01:00</updated><subtitle></subtitle><entry><title>Basic Sentiment Analysis with Python</title><link href="./basic-sentiment-analysis-with-python.html" rel="alternate"></link><published>2012-11-01T00:00:00+01:00</published><updated>2012-11-01T00:00:00+01:00</updated><author><name>Javier Alba</name></author><id>tag:None,2012-11-01:./basic-sentiment-analysis-with-python.html</id><summary type="html">&lt;p&gt;[Update]: you can check out the code on &lt;a class="reference external" href="https://github.com/fjavieralba/basic_sentiment_analysis"&gt;Github&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;In this post I will try to give a very introductory view of some techniques that could be useful when you want to perform a basic analysis of opinions written in english.&lt;/p&gt;
+&lt;p&gt;These techniques come 100% from experience in real-life projects …&lt;/p&gt;</summary><content type="html">&lt;p&gt;[Update]: you can check out the code on &lt;a class="reference external" href="https://github.com/fjavieralba/basic_sentiment_analysis"&gt;Github&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;In this post I will try to give a very introductory view of some techniques that could be useful when you want to perform a basic analysis of opinions written in english.&lt;/p&gt;
+&lt;p&gt;These techniques come 100% from experience in real-life projects. Don't expect a theoretical introduction of Sentiment Analysis and the multiple strategies out there to achieve opinion mining, this is only a practical example of applying some basic rules to extract the polarity (positive or negative) of a text.&lt;/p&gt;
+&lt;p&gt;Let's start looking at an example opinion:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;em&gt;&amp;quot;What can I say about this place. The staff of the restaurant is nice and the eggplant is not bad. Apart from that, very uninspired food, lack of atmosphere and too expensive. I am a staunch vegetarian and was sorely dissapointed with the veggie options on the menu. Will be the last time I visit, I recommend others to avoid.&amp;quot;&lt;/em&gt;&lt;/blockquote&gt;
+&lt;p&gt;As you can see, this is a mainly negative review about a restaurant.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;General or detailed sentiment&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Sometimes we only want an overall rating of the sentiment of the whole review. In other cases, we need a little more detail, and we want each negative or positive comment identified.&lt;/p&gt;
+&lt;p&gt;This kind of detailed detection can be quite challenging. Sometimes the aspect is explicit. An example is the opinion &lt;em&gt;&amp;quot;very uninspired food&amp;quot;&lt;/em&gt;, where the criticized aspect is the food. In other cases, is implicit: the sentence &lt;em&gt;&amp;quot;too expensive&amp;quot;&lt;/em&gt; gives a negative opinion about the price without mentioning it.&lt;/p&gt;
+&lt;p&gt;In this post I will focus on detecting the overall polarity of a review, leaving for later the identification of individual opinions on concrete aspects of the restaurant.
+To compute the polarity of a review, I'm going to use an approach based on dictionaries and some basic algorithms.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;A note about the dictionaries&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;A dictionary is no more than a list of words that share a category. For example, you can have a dictionary for positive expressions, and another one for stop words.&lt;/p&gt;
+&lt;p&gt;The design of the dictionaries highly depends on the concrete topic where you want to perform the opinion mining. Mining hotel opinions is quite different than mining laptops opinions. Not only the positive/negative expressions could be different but the context vocabulary is also quite distinct.&lt;/p&gt;
+&lt;div class="section" id="defining-a-structure-for-the-text"&gt;
+&lt;h2&gt;Defining a structure for the text&lt;/h2&gt;
+&lt;p&gt;Before writing code, there is an important decision to make. Our code will have to interact with text, splitting, tagging, and extracting information from it.&lt;/p&gt;
+&lt;p&gt;But what should be the &lt;em&gt;structure&lt;/em&gt; of our text?&lt;/p&gt;
+&lt;p&gt;This is a key decision because it will determine our algorithms in some ways. We should decide if we want to differentiate sentences inside a a paragraph. We could define a sentence as a list of tokens. But what is a token? a string? a more complex structure? Note that we will want to assign tags to our token. Should we only allow one tag per-token or unlimited ones?&lt;/p&gt;
+&lt;p&gt;Infinite options here. We could choose a very simple structure, for example, defining the text simply as a list of words. Or we could define a more elaborated structure carrying every possible attribute of a processed text (word lemmas, word forms, multiple taggings, inflections...)&lt;/p&gt;
+&lt;p&gt;As usual, a compromise between these two extremes can be a good way to go.&lt;/p&gt;
+&lt;p&gt;For the examples of this post, I'm going to use the following structure:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Each text is a list of sentences&lt;/li&gt;
+&lt;li&gt;Each sentence is a list of tokens&lt;/li&gt;
+&lt;li&gt;Each token is a tuple of three elements: a word form (the exact word that appeared in the text), a word lemma (a generalized version of the word), and a list of associated tags&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;This is a structure type I've found quite useful. Is ready for some &amp;quot;advanced&amp;quot; processing (lemmatization, multiple tags) without being too complex (at least in Python).&lt;/p&gt;
+&lt;p&gt;This is an example of a POS-tagged paragraph:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; &lt;span class="p"&gt;[[(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;All&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;All&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;DT&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;that&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;that&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;DT&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;is&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;is&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;VBZ&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;gold&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;gold&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;NN&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;does&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;does&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;VBZ&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;not&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;not&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;RB&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;glitter&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;glitter&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;VB&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])],&lt;/span&gt;
+&lt;span class="p"&gt;[(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Not&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Not&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;RB&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;all&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;all&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;DT&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;those&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;those&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;DT&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;who&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;who&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;WP&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;wander&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;wander&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;NN&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;are&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;are&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;VBP&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt;
+ &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;lost&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;lost&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;VBN&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])]]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="prepocessing-the-text"&gt;
+&lt;h2&gt;Prepocessing the Text&lt;/h2&gt;
+&lt;p&gt;Once we have decided the structural shape of your processed text, we can start writing some code to read, and pre-process this text. With pre-process I mean some common first steps in NLP such as: Tokenize, Split into sentences, and POS Tag.&lt;/p&gt;
+&lt;p&gt;I will use the NLTK library for these tasks:&lt;/p&gt;
+
+        &lt;script src="https://gist.github.com/3968990.js?file=splitter_postagger_nltk.py"&gt;
+        &lt;/script&gt;
+        &lt;p&gt;Now, using this two simple wrapper classes, I can perform a basic text preprocessing, where the input is the text as a string and the output is a collection of sentences, each of which is again a collection of tokens.&lt;/p&gt;
+&lt;p&gt;By the moment, our tokens are quite simple. Since we are using NLTK, and it does not lemmatize words, our forms and lemmas will be always identical. At this point of the process, the only tag associated to each word is its own POS Tag provided by NLTK.&lt;/p&gt;
+
+        &lt;script src="https://gist.github.com/3968990.js?file=preprocessing_text.py"&gt;
+        &lt;/script&gt;
+        &lt;/div&gt;
+&lt;div class="section" id="defining-a-dictionary-of-positive-and-negative-expressions"&gt;
+&lt;h2&gt;Defining a dictionary of positive and negative expressions&lt;/h2&gt;
+&lt;p&gt;The next step is to recognize positive and negative expressions. To achieve this, I'm going to use dictionaries, i.e. simple files containing expressions that will be searched in our text.&lt;/p&gt;
+&lt;p&gt;For example, I'm going to define two tiny dictionaries, one for positive expressions and other for negative ones:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;positive.yml&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;nice&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;positive&lt;/span&gt;&lt;span class="p p-Indicator"&gt;]&lt;/span&gt;
+&lt;span class="nt"&gt;awesome&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;positive&lt;/span&gt;&lt;span class="p p-Indicator"&gt;]&lt;/span&gt;
+&lt;span class="nt"&gt;cool&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;positive&lt;/span&gt;&lt;span class="p p-Indicator"&gt;]&lt;/span&gt;
+&lt;span class="nt"&gt;superb&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;positive&lt;/span&gt;&lt;span class="p p-Indicator"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;negative.yml&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;bad&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;negative&lt;/span&gt;&lt;span class="p p-Indicator"&gt;]&lt;/span&gt;
+&lt;span class="nt"&gt;uninspired&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;negative&lt;/span&gt;&lt;span class="p p-Indicator"&gt;]&lt;/span&gt;
+&lt;span class="nt"&gt;expensive&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;negative&lt;/span&gt;&lt;span class="p p-Indicator"&gt;]&lt;/span&gt;
+&lt;span class="nt"&gt;dissapointed&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;negative&lt;/span&gt;&lt;span class="p p-Indicator"&gt;]&lt;/span&gt;
+&lt;span class="nt"&gt;recommend others to avoid&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;negative&lt;/span&gt;&lt;span class="p p-Indicator"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;In case you were wondering, we could have used a simpler format, or used only one file, but this dictionary format will be useful later.&lt;/p&gt;
+&lt;p&gt;Note that these are only two example dictionaries, useless in a real life project.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="tagging-the-text-with-dictionaries"&gt;
+&lt;h2&gt;Tagging the text with dictionaries&lt;/h2&gt;
+&lt;p&gt;The following code defines a class that I will use to tag our pre-processed text with our just defined dictionaries.&lt;/p&gt;
+
+        &lt;script src="https://gist.github.com/3969016.js?file=dictionary_tagger.py"&gt;
+        &lt;/script&gt;
+        &lt;p&gt;When tagging our review, the input is the previously preprocessed text, and the output is the same text, enriched with tags of type &amp;quot;positive&amp;quot; or &amp;quot;negative&amp;quot;:&lt;/p&gt;
+
+        &lt;script src="https://gist.github.com/3969016.js?file=tagging_positive_negative.py"&gt;
+        &lt;/script&gt;
+        &lt;/div&gt;
+&lt;div class="section" id="a-simple-sentiment-measure"&gt;
+&lt;h2&gt;A simple sentiment measure&lt;/h2&gt;
+&lt;p&gt;We could already perform a basic calculus of the positiveness or negativeness of a review.&lt;/p&gt;
+&lt;p&gt;Simply counting how many positive and negative expressions we detected, could be a (very naive) sentiment measure.&lt;/p&gt;
+&lt;p&gt;The following code snippet applies this idea:&lt;/p&gt;
+
+        &lt;script src="https://gist.github.com/3969825.js?file=basic_sentiment_score.py"&gt;
+        &lt;/script&gt;
+        
+        &lt;script src="https://gist.github.com/3969825.js?file=example_exec_1.py"&gt;
+        &lt;/script&gt;
+        &lt;p&gt;So, our review could be considered &amp;quot;quite negative&amp;quot; since it has a score of -4&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="incrementers-and-decrementers"&gt;
+&lt;h2&gt;Incrementers and decrementers&lt;/h2&gt;
+&lt;p&gt;The previous &amp;quot;sentiment score&amp;quot; was very basic: it only counts positive and negative expressions and makes a sum, without taking into account that maybe some expressions are more positive or more negative than others.&lt;/p&gt;
+&lt;p&gt;A way of defining this &amp;quot;strength&amp;quot; could be using two new dictionaries. One for &amp;quot;incrementers&amp;quot; and another for &amp;quot;decrementers&amp;quot;.&lt;/p&gt;
+&lt;p&gt;Let's define two tiny examples:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;inc.yml&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;too&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;inc&lt;/span&gt;&lt;span class="p p-Indicator"&gt;]&lt;/span&gt;
+&lt;span class="nt"&gt;very&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;inc&lt;/span&gt;&lt;span class="p p-Indicator"&gt;]&lt;/span&gt;
+&lt;span class="nt"&gt;sorely&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;inc&lt;/span&gt;&lt;span class="p p-Indicator"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;dec.yml&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;barely&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;dec&lt;/span&gt;&lt;span class="p p-Indicator"&gt;]&lt;/span&gt;
+&lt;span class="nt"&gt;little&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;dec&lt;/span&gt;&lt;span class="p p-Indicator"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;We instantiate again our tagger, telling it to use these two new dictionaries:&lt;/p&gt;
+
+        &lt;script src="https://gist.github.com/3969016.js?file=tagging_inc_dec.py"&gt;
+        &lt;/script&gt;
+        &lt;p&gt;Now, we could improve in some way our sentiment score. The idea is that &amp;quot;good&amp;quot; has more strength than &amp;quot;barely good&amp;quot; but less than &amp;quot;very good&amp;quot;.&lt;/p&gt;
+&lt;p&gt;The following code defines the recursive function &lt;tt class="docutils literal"&gt;sentence_score&lt;/tt&gt; to compute the sentiment score of a sentence.
+The most remarkable thing about it is that it uses information about the previous token to make a decision on the score of the current token.&lt;/p&gt;
+&lt;p&gt;This function is then used by our new &lt;tt class="docutils literal"&gt;sentiment_score&lt;/tt&gt; function:&lt;/p&gt;
+
+        &lt;script src="https://gist.github.com/3969825.js?file=sentiment_score_inc_dec.py"&gt;
+        &lt;/script&gt;
+        
+        &lt;script src="https://gist.github.com/3969825.js?file=example_exec_2.py"&gt;
+        &lt;/script&gt;
+        &lt;p&gt;Notice that the review is now considered more negative, due to the appearance of expressions such as &amp;quot;very uninspired&amp;quot;, &amp;quot;too expensive&amp;quot; and &amp;quot;sorely dissapointed&amp;quot;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="inverters-and-polarity-flips"&gt;
+&lt;h2&gt;Inverters and polarity flips&lt;/h2&gt;
+&lt;p&gt;With the approach we've been following so far, some expressions could be incorrectly tagged.
+For example, this part of our example review:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;em&gt;the eggplant is not bad&lt;/em&gt;&lt;/blockquote&gt;
+&lt;p&gt;contains the word &lt;em&gt;bad&lt;/em&gt; but the sentence is a positive opinion about the eggplant.&lt;/p&gt;
+&lt;p&gt;This is because the appearance of the negation word &lt;em&gt;not&lt;/em&gt;, that flips the meaning of the negative adjective &lt;em&gt;bad&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;We could take into account these types of polarity flips defining a dictionary of inverters:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;inv.yml&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;lack of&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;inv&lt;/span&gt;&lt;span class="p p-Indicator"&gt;]&lt;/span&gt;
+&lt;span class="nt"&gt;not&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;inv&lt;/span&gt;&lt;span class="p p-Indicator"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;When tagging our text, we should also specify this new dictionary in the instantiation of our tagger:&lt;/p&gt;
+
+        &lt;script src="https://gist.github.com/3969016.js?file=tagging_inverters.py"&gt;
+        &lt;/script&gt;
+        &lt;p&gt;Then, we could adapt our sentiment_score function. We want it to flip the polarity of a sentiment word when is preceded by an inverter:&lt;/p&gt;
+
+        &lt;script src="https://gist.github.com/3969825.js?file=sentiment_score_flips.py"&gt;
+        &lt;/script&gt;
+        &lt;p&gt;Recalculating again the sentiment score:&lt;/p&gt;
+
+        &lt;script src="https://gist.github.com/3969825.js?file=example_exec_3.py"&gt;
+        &lt;/script&gt;
+        &lt;p&gt;It's now -5.0 since &amp;quot;not bad&amp;quot; is considered positive.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;We have seen a little introduction to some basic techniques and algorithms that can give us an overall &amp;quot;score&amp;quot; of how positive or negative a review is.&lt;/p&gt;
+&lt;p&gt;The steps we've followed are:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Split the text into sentences, and each sentence into tokens&lt;/li&gt;
+&lt;li&gt;Add POS (Part Of Speech) tags to the Splitted text, using NLTK&lt;/li&gt;
+&lt;li&gt;Enrich the POS-tagged text with our own tags using dictionaries. These tags are in a different &amp;quot;semantic level&amp;quot; than POS-tags: &amp;quot;positive&amp;quot;, &amp;quot;negative&amp;quot;, &amp;quot;inverter&amp;quot;, &amp;quot;incrementer&amp;quot; and &amp;quot;decrementer&amp;quot;&lt;/li&gt;
+&lt;li&gt;Implement some basic extraction rules over the tagged text, in form of python functions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;That could be a good starting point to someone interested in sentiment analysis, but this is only the very beginning.&lt;/p&gt;
+&lt;p&gt;In a real-life system you should work harder, especially in the extraction-rules part (and, of course, in the dictionaries).&lt;/p&gt;
+&lt;p&gt;The method described so far is a rule-based approach. There are other techniques to perform sentiment analysis, for example, applying machine-learning algorithms. In any case, I think that advanced rule-based or machine-learning systems are out of scope in an introductory post like this.&lt;/p&gt;
+&lt;p&gt;Hope you enjoyed the reading!&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="nlp"></category><category term="python"></category><category term="nlp"></category><category term="sentiment analysis"></category></entry><entry><title>Compiling Unitex Corpus Processor</title><link href="./compiling-unitex-corpus-processor.html" rel="alternate"></link><published>2012-10-27T18:21:00+02:00</published><updated>2012-10-27T18:21:00+02:00</updated><author><name>Javier Alba</name></author><id>tag:None,2012-10-27:./compiling-unitex-corpus-processor.html</id><summary type="html">&lt;p&gt;&lt;a class="reference external" href="http://www-igm.univ-mlv.fr/~unitex/"&gt;Unitex Corpus Processor&lt;/a&gt; is a very useful software component for some NLP tasks.&lt;/p&gt;
+&lt;p&gt;If you have ever needed to compile it as a dynamic library in Unix, with the following command:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+make 64BITS=yes LIBRARY=yes
+&lt;/pre&gt;
+&lt;p&gt;maybe you have found an error similar to this when compiling Unitex 2.1 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;a class="reference external" href="http://www-igm.univ-mlv.fr/~unitex/"&gt;Unitex Corpus Processor&lt;/a&gt; is a very useful software component for some NLP tasks.&lt;/p&gt;
+&lt;p&gt;If you have ever needed to compile it as a dynamic library in Unix, with the following command:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+make 64BITS=yes LIBRARY=yes
+&lt;/pre&gt;
+&lt;p&gt;maybe you have found an error similar to this when compiling Unitex 2.1:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+g++ *.o -Wall -W -O3 -fPIC -D_NOT_UNDER_WINDOWS -DUNITEX_LIBRARY
+-I&amp;quot;../include_tre&amp;quot; -Ilibtre/include -I&amp;quot;..&amp;quot;  -Llibtre/lib -ltre -lpthread
+-shared -o ../bin/libunitex.so/usr/bin/ld: libtre/lib/libtre.a(regcomp.o):
+relocation R_X86_64_32 against `a local symbol' can not be used when making
+a shared object; recompile with -fPIC
+libtre/lib/libtre.a: could not read symbols: Bad value
+collect2: ld returned 1 exit status
+make: *** [.libunitex] Error 1
+&lt;/pre&gt;
+&lt;p&gt;Or maybe your error looks like this (Unitex 3.0):&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+g++ *.o -Wall -O3 -fPIC -D_NOT_UNDER_WINDOWS -DUNITEX_LIBRARY
+-I&amp;quot;../include_tre&amp;quot; -Ilibtre/include -I&amp;quot;..&amp;quot;  -Llibtre/lib -ltre   -lpthread
+-shared -o ../bin/libunitex.so
+/usr/bin/ld: libtre/lib/libtre.a(regerror.o): relocation R_X86_64_32S
+against `.rodata' can not be used when making a shared object;
+recompile with -fPIC
+libtre/lib/libtre.a: could not read symbols: Bad value
+collect2: ld returned 1 exit status
+make: *** [.libunitex] Error 1
+&lt;/pre&gt;
+&lt;p&gt;I could solve this issue unzipping and installing the &amp;quot;tre&amp;quot; library included in Unitex distribution (&lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;&amp;lt;UNITEX_DIR&amp;gt;/Src/C++/tre-0.8.0.tar.gz&lt;/span&gt;&lt;/tt&gt;):&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+cd ..
+tar xvfz tre-0.8.0.tar.gz
+cd tre-0.8.0
+
+./configure
+make
+&lt;/pre&gt;
+&lt;p&gt;And, as &amp;quot;root&amp;quot;:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+make install
+&lt;/pre&gt;
+&lt;p&gt;Then, return to &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;&amp;lt;UNITEX_DIR&amp;gt;/Src/C++/build&lt;/span&gt;&lt;/tt&gt; and execute the following command (all in one line):&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+g++ *.o -Wall -W -O3 -fPIC -D_NOT_UNDER_WINDOWS -DUNITEX_LIBRARY -I&amp;quot;../include_tre&amp;quot;
+-Ilibtre/include -I&amp;quot;..&amp;quot;  -L/usr/local/lib -ltre -lpthread -shared
+-o ../bin/libunitex.so
+&lt;/pre&gt;
+&lt;p&gt;If all goes well, you will have your Unitex library in &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;&amp;lt;UNITEX_DIR&amp;gt;/Src/C++/bin/libunitex.so&lt;/span&gt;&lt;/tt&gt;&lt;/p&gt;
+&lt;p&gt;Hope it helps!&lt;/p&gt;
+</content><category term="issues"></category><category term="nlp"></category><category term="unitex"></category><category term="issues"></category><category term="unix"></category></entry><entry><title>Pelican: a static blog generator for Pythonistas</title><link href="./pelican-a-static-blog-generator-for-pythonistas.html" rel="alternate"></link><published>2012-04-15T15:50:00+02:00</published><updated>2012-04-15T15:50:00+02:00</updated><author><name>Javier Alba</name></author><id>tag:None,2012-04-15:./pelican-a-static-blog-generator-for-pythonistas.html</id><summary type="html">&lt;p&gt;Hi!&lt;/p&gt;
+&lt;p&gt;I would like to start this blog speaking about &lt;a class="reference external" href="http://blog.notmyidea.org/pelican-a-simple-static-blog-generator-in-python.html"&gt;Pelican&lt;/a&gt;, a nice Python project initiated by &lt;a class="reference external" href="http://notmyidea.org/"&gt;Alexis Metaireau&lt;/a&gt;. It allows you to generate a complete static blog/site from &lt;a class="reference external" href="http://docutils.sourceforge.net/rst.html"&gt;reStructuredText&lt;/a&gt; Templates. The blog you are reading just now is created in that way.&lt;/p&gt;
+&lt;p&gt;Why would you do that? &lt;em&gt;First …&lt;/em&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;Hi!&lt;/p&gt;
+&lt;p&gt;I would like to start this blog speaking about &lt;a class="reference external" href="http://blog.notmyidea.org/pelican-a-simple-static-blog-generator-in-python.html"&gt;Pelican&lt;/a&gt;, a nice Python project initiated by &lt;a class="reference external" href="http://notmyidea.org/"&gt;Alexis Metaireau&lt;/a&gt;. It allows you to generate a complete static blog/site from &lt;a class="reference external" href="http://docutils.sourceforge.net/rst.html"&gt;reStructuredText&lt;/a&gt; Templates. The blog you are reading just now is created in that way.&lt;/p&gt;
+&lt;p&gt;Why would you do that? &lt;em&gt;First&lt;/em&gt;: for pythonic fun. &lt;em&gt;Second&lt;/em&gt;: because of the &lt;strong&gt;static&lt;/strong&gt; part: your site will be a bunch of static files (HTML, CSS...). This could sound strange in 2012 but I think is a good way to go if you want to keep it simple. In addition, it's extremely easy to host a static site for free, even maintaining your own domain name. (We will see how later)&lt;/p&gt;
+&lt;p&gt;That said, you will get in the box many features you would expect from a blog site, including comments, socialize-buttons, pagination, tags, categories and so on.&lt;/p&gt;
+&lt;div class="section" id="restructuredtext"&gt;
+&lt;h2&gt;reStructuredText&lt;/h2&gt;
+&lt;p&gt;You can write your posts and pages using reStructuredText or markdown.&lt;/p&gt;
+&lt;p&gt;Probably you already know but in case you are wondering how a reStructuredText (rst) template looks like, this is an example of a blog entry written in rst:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gh"&gt;Title of a post&lt;/span&gt;
+&lt;span class="gh"&gt;###############&lt;/span&gt;
+&lt;span class="nc"&gt;:category:&lt;/span&gt; programming
+
+&lt;span class="gh"&gt;Subtitle&lt;/span&gt;
+&lt;span class="gh"&gt;--------&lt;/span&gt;
+Hi!
+
+This is my first rst post!
+
+And this is a link to a page_
+
+
+&lt;span class="p"&gt;..&lt;/span&gt; &lt;span class="nt"&gt;_page:&lt;/span&gt; http://moliware.com/
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;reStructuredText is part of &lt;a class="reference external" href="http://docutils.sourceforge.net/"&gt;docutils&lt;/a&gt;, a powerful and open-source text processing system written in Python.&lt;/p&gt;
+&lt;p&gt;In an &lt;tt class="docutils literal"&gt;rst&lt;/tt&gt; file you can specify links, insert images, code snippets and many other things. &lt;a class="reference external" href="http://docutils.sourceforge.net/docs/user/rst/quickref.html"&gt;Here&lt;/a&gt; you have a good overview of all its features.&lt;/p&gt;
+&lt;p&gt;As you may know, it's used for generating documentation. For example, with &lt;a class="reference external" href="http://sphinx.pocoo.org/"&gt;Sphinx&lt;/a&gt; you write your &lt;tt class="docutils literal"&gt;rst&lt;/tt&gt; files once and then you can generate your documentation in multiple formats like PDF of HTML.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="installing-pelican"&gt;
+&lt;h2&gt;Installing Pelican&lt;/h2&gt;
+&lt;pre class="literal-block"&gt;
+$ pip install pelican
+&lt;/pre&gt;
+&lt;p&gt;If you're curious, you can review its code and clone the &lt;a class="reference external" href="https://github.com/getpelican/pelican/"&gt;github repository&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="creating-a-site-blog"&gt;
+&lt;h2&gt;Creating a site/blog&lt;/h2&gt;
+&lt;p&gt;Once installed, to create a new site, create a folder and run the pelican command. For example:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+$ mkdir my_blog
+$ pelican my_blog
+&lt;/pre&gt;
+&lt;p&gt;This command will generate an &lt;tt class="docutils literal"&gt;output&lt;/tt&gt; folder with an entire blog site with the default content.
+If you open the &lt;tt class="docutils literal"&gt;index.html&lt;/tt&gt; file inside &lt;tt class="docutils literal"&gt;output&lt;/tt&gt; you will see something similar to:&lt;/p&gt;
+&lt;img alt="" class="align-center" src="static/images/pelican_default.png" /&gt;
+&lt;/div&gt;
+&lt;div class="section" id="writing-posts"&gt;
+&lt;h2&gt;Writing posts&lt;/h2&gt;
+&lt;p&gt;To start writing posts, do the following:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Inside your site folder, create a new folder that will contain your rst sources:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nb"&gt;cd&lt;/span&gt; my_blog
+$ mkdir rst
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Create an &lt;tt class="docutils literal"&gt;rst&lt;/tt&gt; file inside that directory with an example post:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ vim rst/my_first_post.rst
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gh"&gt;Starting with Pelican&lt;/span&gt;
+&lt;span class="gh"&gt;#####################&lt;/span&gt;
+&lt;span class="nc"&gt;:date:&lt;/span&gt; 2012-03-30 23:47
+&lt;span class="nc"&gt;:category:&lt;/span&gt; programming
+&lt;span class="nc"&gt;:tags:&lt;/span&gt; python, blog, rst, pelican
+&lt;span class="nc"&gt;:author:&lt;/span&gt; F\. Javier Alba
+&lt;span class="nc"&gt;:excerpt:&lt;/span&gt; This is an excerpt of my post.
+
+&lt;span class="gh"&gt;Introduction&lt;/span&gt;
+&lt;span class="gh"&gt;------------&lt;/span&gt;
+
+Hi!
+
+This is my first rst post!
+
+And this is a link to a page_
+
+
+&lt;span class="p"&gt;..&lt;/span&gt; &lt;span class="nt"&gt;_page:&lt;/span&gt; http://moliware.com/
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Now, run pelican indicating your &lt;tt class="docutils literal"&gt;rst&lt;/tt&gt; directory:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ pelican rst/
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Open &lt;tt class="docutils literal"&gt;my_blog/output/index.html&lt;/tt&gt; and you will see your post in html format:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;img alt="" class="align-center" src="static/images/first_post.png" /&gt;
+&lt;/div&gt;
+&lt;div class="section" id="writing-pages"&gt;
+&lt;h2&gt;Writing pages&lt;/h2&gt;
+&lt;p&gt;Pelican also support regular pages.&lt;/p&gt;
+&lt;p&gt;Imagine you want an &amp;quot;About&amp;quot; page apart from your blog posts.&lt;/p&gt;
+&lt;p&gt;All you have to do is create a &lt;tt class="docutils literal"&gt;pages&lt;/tt&gt; folder and create a new rst file with your page content:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ mkdir rst/pages
+$ vim rst/pages/about.rst
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gh"&gt;About me&lt;/span&gt;
+&lt;span class="gh"&gt;########&lt;/span&gt;
+&lt;span class="nc"&gt;:date:&lt;/span&gt; 2012-03-30 23:47
+&lt;span class="nc"&gt;:author:&lt;/span&gt; F\. Javier Alba
+
+This is an about page!
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Run again the pelican script against your sources and it will generate also the new page:&lt;/p&gt;
+&lt;img alt="" class="align-center" src="static/images/page.png" /&gt;
+&lt;/div&gt;
+&lt;div class="section" id="configuring-your-blog"&gt;
+&lt;h2&gt;Configuring your blog&lt;/h2&gt;
+&lt;p&gt;The &lt;tt class="docutils literal"&gt;Pelican&lt;/tt&gt; command optionally accepts a configuration file to customize some parts of your blog.&lt;/p&gt;
+&lt;p&gt;E.g: output folder, date formats, pagination, disqus comments, Twitter integration... all these aspects and several more can be configured in a python configuration file and are supported by the &amp;quot;official themes&amp;quot;. (In fact, this will depend on the theme you are using. You can create your own pelican theme and choose what of these features you will support.)&lt;/p&gt;
+&lt;p&gt;The following is an example of a Pelican configuration file:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;DEFAULT_CATEGORY = &amp;#39;Uncategorized&amp;#39;
+
+TWITTER_USERNAME = &amp;#39;fjavieralba&amp;#39;
+
+PDF_GENERATOR = False
+REVERSE_CATEGORY_ORDER = True
+DEFAULT_PAGINATION = 10
+
+FEED_RSS = &amp;#39;feeds/all.rss.xml&amp;#39;
+CATEGORY_FEED_RSS = &amp;#39;feeds/%s.rss.xml&amp;#39;
+
+SOCIAL = ((&amp;#39;twitter&amp;#39;, &amp;#39;http://twitter.com/fjavieralba&amp;#39;),
+          (&amp;#39;linkedIn&amp;#39;, &amp;#39;http://es.linkedin.com/in/fjavieralba/en&amp;#39;),
+          (&amp;#39;github&amp;#39;, &amp;#39;http://github.com/fjavieralba&amp;#39;),)
+
+OUTPUT_PATH = &amp;#39;/path/to/my_blog/output&amp;#39;
+
+# static paths will be copied under the same name
+STATIC_PATHS = [&amp;quot;images&amp;quot;]
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;To tell pelican to use your configuration file simply run the command with the -s option:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ pelican rst/ -s &amp;lt;CONF_FILE&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;You can see more details about pelican configuration in &lt;a class="reference external" href="http://pelican.readthedocs.org/"&gt;the official Pelican documentation&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="extending-pelican"&gt;
+&lt;h2&gt;Extending Pelican&lt;/h2&gt;
+&lt;p&gt;If you have some coding skills or are used to web templates engines like &lt;a class="reference external" href="http://jinja.pocoo.org/"&gt;Jinja&lt;/a&gt;, you will find it easy to extend and adapt Pelican to fit your needs.&lt;/p&gt;
+&lt;div class="section" id="modifying-default-themes"&gt;
+&lt;h3&gt;Modifying default themes&lt;/h3&gt;
+&lt;p&gt;We have been using the default theme. But what if you want to customize a little bit more the look and feel of your blog?&lt;/p&gt;
+&lt;p&gt;One way of customization is via configuration file. But if you want to go further, you can directly change your theme files.&lt;/p&gt;
+&lt;p&gt;Themes usually consist in two parts: the &lt;tt class="docutils literal"&gt;templates&lt;/tt&gt; folder and the &lt;tt class="docutils literal"&gt;static&lt;/tt&gt; folder.
+&lt;tt class="docutils literal"&gt;static&lt;/tt&gt; usually contains CSS files, images, etc. and &lt;tt class="docutils literal"&gt;templates&lt;/tt&gt; contains &lt;tt class="docutils literal"&gt;.html&lt;/tt&gt; files that are actually &lt;a class="reference external" href="http://jinja.pocoo.org/"&gt;Jinja&lt;/a&gt; templates. Experimenting a bit and changing the CSS styles or the templates of an existing theme is sometimes all you need to personalize your new blog.&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://github.com/getpelican/pelican-themes"&gt;In this Github repo&lt;/a&gt; you can find all the &amp;quot;official&amp;quot; Pelican themes.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="creating-your-own-theme"&gt;
+&lt;h3&gt;Creating your own theme&lt;/h3&gt;
+&lt;p&gt;If you have a clear idea of how your site should be and look like, you can also create your own theme.&lt;/p&gt;
+&lt;p&gt;It's a good idea to start from a existing one. Again in the &lt;a class="reference external" href="http://pelican.readthedocs.org/en/latest/themes.html"&gt;project documentation page&lt;/a&gt; you have more details on how to do that.&lt;/p&gt;
+&lt;p&gt;In fact, this blog is a Pelican site based on a theme I created (miserably copying the look and feel of &lt;a class="reference external" href="http://lucumr.pocoo.org/"&gt;Armin Ronacher's blog&lt;/a&gt;)&lt;/p&gt;
+&lt;p&gt;You can check out this theme on &lt;a class="reference external" href="https://github.com/fjavieralba/flasky"&gt;github&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="deploying-your-site-on-heroku-or-github-pages-for-free"&gt;
+&lt;h3&gt;Deploying your site on Heroku or Github Pages for free&lt;/h3&gt;
+&lt;p&gt;One of the advantages of having an static blog (apart from being the most modern of your colleagues) is that it's easy to host your blog/site for free.&lt;/p&gt;
+&lt;p&gt;Github Pages provides free hosting for static pages of projects or users in Github. They have a &lt;a class="reference external" href="http://help.github.com/pages/"&gt;nice tutorial&lt;/a&gt; on how to create your static site, and it's also possible to use your own domain name. Note that if you want to go this way, you have to create your github pages &lt;a class="reference external" href="https://help.github.com/articles/creating-project-pages-manually"&gt;manually&lt;/a&gt;, not with their new Page generator. (This site is served in that way!)&lt;/p&gt;
+&lt;p&gt;You could also take advantage of the &amp;quot;free dino&amp;quot; that Heroku provides to serve your site. It only requires an &lt;a class="reference external" href="http://kennethreitz.com/static-sites-on-heroku-cedar.html"&gt;easy extra step&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</content><category term="hacks"></category><category term="blog"></category><category term="rst"></category><category term="pelican"></category></entry></feed>
